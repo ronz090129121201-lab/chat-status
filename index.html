@@ -2,380 +2,468 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Chat Status</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHAT STATUS</title>
 
 <style>
-*{box-sizing:border-box}
-
-:root{
- --green:#00ff65;
- --red:#ff1025;
+* {
+  box-sizing: border-box;
 }
 
-body{
- margin:0;
- min-height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:15px;
- background:#020604;
- color:var(--green);
- font-family:monospace;
- transition:background .15s,color .15s;
- overflow:hidden;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #030606;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: background .5s;
 }
 
-body.red{
- background:#210005;
- color:var(--red);
+body.red {
+  background: #180000;
 }
 
-.card{
- width:100%;
- max-width:440px;
- padding:25px 20px;
- background:#030a06;
- border:1px solid var(--green);
- box-shadow:0 0 25px #00ff6555;
- transition:border-color .15s,box-shadow .15s;
- position:relative;
- overflow:hidden;
+body.green {
+  background: #00180a;
 }
 
-body.red .card{
- border-color:var(--red);
- box-shadow:0 0 30px #ff102566;
+.container {
+  width: 92%;
+  max-width: 460px;
+  padding: 25px 20px;
+  text-align: center;
+  border: 1px solid #16ff78;
+  background: rgba(0, 0, 0, .88);
+  box-shadow: 0 0 25px #00ff6655;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
 }
 
-.logo{
- width:70px;
- height:70px;
- margin:auto;
- border-radius:50%;
- display:grid;
- place-items:center;
- background:#075e36;
- color:white;
- font-size:38px;
- font-weight:bold;
- box-shadow:0 0 25px #00ff65;
- animation:pulse 1s infinite alternate;
+.logo {
+  margin: 0 auto 12px;
+  width: 68px;
+  height: 68px;
+  filter: drop-shadow(0 0 12px #25D366);
+  animation: logoPulse 1.5s infinite alternate;
 }
 
-@keyframes pulse{
- to{transform:scale(1.08);box-shadow:0 0 35px var(--red)}
+.logo svg {
+  width: 100%;
+  height: 100%;
 }
 
-h1{
- text-align:center;
- letter-spacing:4px;
- font-size:26px;
- text-shadow:0 0 12px currentColor;
+@keyframes logoPulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.09); }
 }
 
-.subtitle{
- text-align:center;
- font-size:10px;
- letter-spacing:3px;
+h1 {
+  color: #25D366;
+  letter-spacing: 4px;
+  font-size: 27px;
+  text-shadow: 0 0 12px #25D366;
 }
 
-button{
- width:100%;
- padding:16px;
- margin-top:22px;
- border:0;
- background:var(--green);
- color:#001b09;
- font-weight:bold;
- font-size:16px;
- cursor:pointer;
+.status {
+  color: #ff3030;
+  font-size: 13px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  margin: 18px 0;
+  animation: blink 1s infinite;
 }
 
-body.red button{
- background:var(--red);
- color:white;
+@keyframes blink {
+  50% { opacity: .35; }
 }
 
-#terminal{
- display:none;
- height:240px;
- overflow:hidden;
- padding:12px;
- border:1px solid currentColor;
- font-size:12px;
- line-height:1.8;
- overflow-wrap:anywhere;
+#message {
+  min-height: 48px;
+  font-size: 14px;
+  color: #00ff77;
+  margin: 20px 0;
+  line-height: 1.6;
 }
 
-.error{
- color:#ff263b;
- font-weight:bold;
- text-shadow:0 0 8px red;
- animation:glitch .15s infinite alternate;
+.progress-box {
+  width: 100%;
+  height: 15px;
+  border: 1px solid #25D366;
+  padding: 2px;
+  margin: 20px 0 10px;
 }
 
-@keyframes glitch{
- 0%{transform:translateX(-2px)}
- 100%{transform:translateX(2px)}
+.progress {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff0000, #25D366);
+  box-shadow: 0 0 12px #25D366;
 }
 
-.bar{
- height:12px;
- background:#183023;
- margin-top:20px;
+#percent {
+  font-size: 14px;
+  color: #fff;
 }
 
-.progress{
- height:100%;
- width:0;
- background:var(--green);
- box-shadow:0 0 15px var(--green);
- transition:width 30s linear;
+#timer {
+  color: #ff3333;
+  font-size: 34px;
+  font-weight: bold;
+  margin: 15px;
+  text-shadow: 0 0 12px red;
 }
 
-body.red .progress{
- background:var(--red);
- box-shadow:0 0 15px var(--red);
+button {
+  border: 1px solid #25D366;
+  background: #06140b;
+  color: #25D366;
+  padding: 14px 24px;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #25D36655;
 }
 
-#percent{
- text-align:right;
- margin-top:8px;
+button:active {
+  transform: scale(.96);
 }
 
-#result{
- display:none;
- text-align:center;
- padding:25px 0;
+#startBtn {
+  margin-top: 15px;
 }
 
-#result h2{
- font-size:29px;
- animation:pulse 1s infinite alternate;
+.terminal {
+  height: 105px;
+  overflow: hidden;
+  text-align: left;
+  border: 1px solid #17452a;
+  background: #020704;
+  padding: 10px;
+  color: #00ff66;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 20px;
 }
 
-#screenError{
- display:none;
- position:absolute;
- inset:0;
- z-index:5;
- background:#b00012;
- color:white;
- text-align:center;
- padding:60px 15px;
- font-size:23px;
- font-weight:bold;
+.error-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, .96);
+  color: #ff2929;
+  text-align: center;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: monospace;
 }
 
-#screenError small{
- font-size:12px;
- display:block;
- margin-top:20px;
+.error-screen.show {
+  display: flex;
+  animation: errorGlitch .25s;
 }
 
-.scanlines{
- pointer-events:none;
- position:fixed;
- inset:0;
- z-index:10;
- background:repeating-linear-gradient(
- transparent 0px,
- transparent 3px,
- #ffffff09 4px
- );
+.error-screen h2 {
+  font-size: 32px;
+  text-shadow: 3px 0 red, -3px 0 #00ff66;
+  animation: blink .5s infinite;
 }
 
-.small{
- text-align:center;
- font-size:9px;
- opacity:.6;
- margin-top:20px;
+.error-screen p {
+  font-size: 13px;
+  line-height: 2;
+}
+
+.error-bar {
+  width: 90%;
+  max-width: 350px;
+  border: 1px solid red;
+  padding: 8px;
+  margin: 8px;
+  color: #fff;
+  background: #300000;
+}
+
+@keyframes errorGlitch {
+  0% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.glitch {
+  animation: glitch .2s 3;
+}
+
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+#final {
+  display: none;
+  color: #25D366;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-shadow: 0 0 18px #25D366;
+  margin-top: 25px;
+}
+
+.small {
+  color: #557a63;
+  font-size: 10px;
+  margin-top: 18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="scanlines"></div>
+<div class="container" id="main">
 
-<div class="card">
+  <div class="logo">
+    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#25D366"
+        d="M24 3C12.4 3 3 12.2 3 23.6c0 4.1 1.2 8 3.5 11.3L3 45l10.5-3.4c3.2 1.7 6.8 2.6 10.5 2.6 11.6 0 21-9.2 21-20.6S35.6 3 24 3z"/>
+      <path fill="#fff"
+        d="M33.5 28.7c-.5-.3-3-1.5-3.5-1.7-.5-.2-.8-.3-1.1.3-.3.5-1.3 1.7-1.6 2-.3.3-.6.4-1.1.1-.5-.3-2.2-.8-4.2-2.6-1.5-1.3-2.6-3-2.9-3.5-.3-.5 0-.8.2-1 .2-.2.5-.6.8-.9.3-.3.4-.5.5-.8.2-.3.1-.6 0-.9-.1-.3-1.1-2.7-1.5-3.7-.4-1-.8-.9-1.1-.9h-.9c-.3 0-.9.1-1.4.6-.5.5-1.8 1.7-1.8 4.1s1.8 4.7 2.1 5c.3.3 3.5 5.3 8.5 7.4 1.2.5 2.1.8 2.8 1 1.2.4 2.3.3 3.2.2 1-.1 3-1.2 3.4-2.4.4-1.2.4-2.2.3-2.4-.1-.2-.5-.3-1-.6z"/>
+    </svg>
+  </div>
 
-<div class="logo">◉</div>
+  <h1>CHAT STATUS</h1>
 
-<h1>CHAT STATUS</h1>
-<p class="subtitle">DIGITAL INTERFACE</p>
+  <div class="status" id="status">
+    ● SYSTEM INITIALIZING
+  </div>
 
-<div id="start">
-<button onclick="startSystem()">INITIALIZE SYSTEM</button>
+  <div id="message">
+    Menunggu arahan sistem...
+  </div>
+
+  <div id="timer">30</div>
+
+  <div class="progress-box">
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <div id="percent">0%</div>
+
+  <div class="terminal" id="terminal">
+    > SYSTEM READY<br>
+    > INITIALIZING INTERFACE...<br>
+    > WAITING FOR START COMMAND...
+  </div>
+
+  <button id="startBtn" onclick="startSystem()">
+    MULAKAN PROSES
+  </button>
+
+  <div id="final">
+    APA KAU TUNGGU?!
+  </div>
+
+  <div class="small">CHAT STATUS INTERFACE</div>
 </div>
 
-<div id="terminal"></div>
-
-<div class="bar">
-<div class="progress" id="progress"></div>
-</div>
-
-<div id="percent">0%</div>
-
-<div id="result">
-<h2>APA KAU TUNGGU?!</h2>
-<p>😂 Terkena!</p>
-<button onclick="location.reload()">RESTART</button>
-</div>
-
-<div id="screenError">
-SYSTEM ERROR
-<small>VISUAL PROCESS INTERRUPTED</small>
-</div>
-
-<p class="small">VISUAL DEMONSTRATION</p>
-
+<div class="error-screen" id="errorScreen">
+  <h2>⚠ SYSTEM ERROR ⚠</h2>
+  <div class="error-bar">CONNECTION STATUS: UNSTABLE</div>
+  <div class="error-bar">RESPONSE: NOT FOUND</div>
+  <div class="error-bar">SYSTEM WARNING: 0x0007</div>
+  <p>
+    RELOADING INTERFACE...<br>
+    PLEASE WAIT...<br>
+    CHECKING VISUAL STATUS...
+  </p>
 </div>
 
 <script>
-let audio;
-let soundEnabled=false;
-let timers=[];
+let running = false;
+let audioContext;
+let soundTimer;
 
-function beep(freq=500,duration=.1,volume=.035){
- if(!audio || !soundEnabled)return;
-
- let osc=audio.createOscillator();
- let gain=audio.createGain();
-
- osc.type="sawtooth";
- osc.frequency.value=freq;
- gain.gain.value=volume;
-
- osc.connect(gain);
- gain.connect(audio.destination);
-
- osc.start();
- osc.stop(audio.currentTime+duration);
-}
-
-function siren(){
- beep(900,.18,.05);
- setTimeout(()=>beep(420,.18,.05),200);
-}
-
-const messages=[
-"> INITIALIZING SYSTEM...",
-"> CONNECTING VISUAL MODULE...",
-"> ERROR 0x001: CONNECTION LOST",
-"> RESTARTING INTERFACE...",
-"> WARNING: UNSTABLE SIGNAL",
-"> FATAL ERROR DETECTED",
-"> SYSTEM FAILURE...",
-"> REPAIRING VISUAL PROCESS...",
-"> DATA STREAM INTERRUPTED",
-"> RECONNECTING...",
-"> WARNING: CRITICAL STATE",
-"> FINAL SEQUENCE STARTED...",
-"> PROCESSING..."
+const messages = [
+  "Menghubungkan interface...",
+  "Memeriksa status sambungan...",
+  "Menganalisis data paparan...",
+  "Menyegerakkan sistem...",
+  "Amaran: gangguan dikesan!",
+  "Mencuba pemulihan sistem...",
+  "Ralat sambungan sementara!",
+  "Memulakan pemeriksaan semula...",
+  "Proses hampir selesai..."
 ];
 
-function addMessage(){
+const terminalMessages = [
+  "CONNECTING...",
+  "CHECKING RESPONSE...",
+  "SCANNING INTERFACE...",
+  "WARNING: SIGNAL UNSTABLE",
+  "RETRYING CONNECTION...",
+  "RELOADING DISPLAY...",
+  "SYSTEM RESPONSE: WAIT...",
+  "PROCESS CONTINUES..."
+];
 
- let terminal=document.getElementById("terminal");
- let line=document.createElement("div");
+function beep(freq, duration, type = "sawtooth", volume = 0.035) {
+  if (!audioContext) return;
 
- let msg=messages[Math.floor(Math.random()*messages.length)];
+  const osc = audioContext.createOscillator();
+  const gain = audioContext.createGain();
 
- line.textContent=msg;
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.value = volume;
 
- if(msg.includes("ERROR") ||
-    msg.includes("FAILURE") ||
-    msg.includes("WARNING")){
-   line.className="error";
- }
+  osc.connect(gain);
+  gain.connect(audioContext.destination);
 
- terminal.appendChild(line);
-
- while(terminal.children.length>12){
-  terminal.removeChild(terminal.firstChild);
- }
-
- terminal.scrollTop=terminal.scrollHeight;
+  osc.start();
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + duration
+  );
+  osc.stop(audioContext.currentTime + duration);
 }
 
-function startSystem(){
+function alertSound() {
+  beep(880, .16);
+  setTimeout(() => beep(440, .18), 180);
+  setTimeout(() => beep(990, .14), 380);
+}
 
- audio=new (window.AudioContext||window.webkitAudioContext)();
- soundEnabled=true;
- audio.resume();
-
- document.getElementById("start").style.display="none";
- document.getElementById("terminal").style.display="block";
-
- let terminal=document.getElementById("terminal");
- let progress=document.getElementById("progress");
- let percent=document.getElementById("percent");
-
- let start=Date.now();
-
- let colorTimer=setInterval(()=>{
-  document.body.classList.toggle("red");
-  siren();
- },1400);
-
- timers.push(colorTimer);
-
- let textTimer=setInterval(()=>{
-  addMessage();
-  beep(350+Math.random()*900,.07,.025);
- },350);
-
- timers.push(textTimer);
-
- let percentTimer=setInterval(()=>{
-
-  let elapsed=Date.now()-start;
-  let value=Math.min(100,Math.floor(elapsed/30000*100));
-
-  percent.textContent=value+"%";
-
-  if(value>=100){
-   finish();
-   clearInterval(percentTimer);
+function startSound() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
 
- },100);
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
 
- timers.push(percentTimer);
+  alertSound();
 
- progress.style.width="100%";
+  soundTimer = setInterval(() => {
+    beep(700, .12);
+    setTimeout(() => beep(420, .12), 160);
+  }, 1800);
+}
 
- let errorTimer=setTimeout(()=>{
-  document.getElementById("screenError").style.display="block";
-  siren();
+function stopSound() {
+  clearInterval(soundTimer);
+}
 
-  setTimeout(()=>{
-   document.getElementById("screenError").style.display="none";
-  },1200);
+function addTerminal(text) {
+  const terminal = document.getElementById("terminal");
+  terminal.innerHTML += "> " + text + "<br>";
+  terminal.scrollTop = terminal.scrollHeight;
+}
 
- },12000);
+function showError() {
+  const screen = document.getElementById("errorScreen");
+  screen.classList.add("show");
+  alertSound();
 
- timers.push(errorTimer);
+  setTimeout(() => {
+    screen.classList.remove("show");
+  }, 2200);
+}
 
- function finish(){
+function startSystem() {
+  if (running) return;
+  running = true;
 
-  timers.forEach(t=>{
-   clearInterval(t);
-   clearTimeout(t);
-  });
+  document.getElementById("startBtn").style.display = "none";
+  startSound();
 
-  document.getElementById("terminal").style.display="none";
-  document.querySelector(".bar").style.display="none";
-  percent.style.display="none";
+  let seconds = 30;
+  let percent = 0;
+  let messageIndex = 0;
+  let terminalIndex = 0;
 
-  document.getElementById("result").style.display="block";
+  const timerElement = document.getElementById("timer");
+  const progress = document.getElementById("progress");
+  const percentElement = document.getElementById("percent");
+  const message = document.getElementById("message");
+  const status = document.getElementById("status");
 
-  beep(1000,.3,.06);
-  setTimeout(()=>beep(500,.3,.06),350);
- }
+  message.textContent = messages[messageIndex];
+  addTerminal("PROCESS STARTED");
+
+  const interval = setInterval(() => {
+    seconds--;
+    percent = Math.round(((30 - seconds) / 30) * 100);
+
+    timerElement.textContent = seconds;
+    progress.style.width = percent + "%";
+    percentElement.textContent = percent + "%";
+
+    document.body.classList.toggle("red");
+    document.body.classList.toggle("green");
+
+    if (seconds % 3 === 0) {
+      messageIndex = (messageIndex + 1) % messages.length;
+      message.textContent = messages[messageIndex];
+
+      terminalIndex = (terminalIndex + 1) % terminalMessages.length;
+      addTerminal(terminalMessages[terminalIndex]);
+    }
+
+    if (seconds === 22 || seconds === 14 || seconds === 7) {
+      document.getElementById("main").classList.add("glitch");
+      setTimeout(() => {
+        document.getElementById("main").classList.remove("glitch");
+      }, 700);
+    }
+
+    if (seconds === 20 || seconds === 10 || seconds === 5) {
+      showError();
+    }
+
+    if (seconds <= 0) {
+      clearInterval(interval);
+      finishSystem();
+    }
+  }, 1000);
+}
+
+function finishSystem() {
+  stopSound();
+
+  document.body.classList.remove("red", "green");
+
+  document.getElementById("status").textContent =
+    "● PROCESS COMPLETED";
+
+  document.getElementById("status").style.color = "#25D366";
+
+  document.getElementById("message").textContent =
+    "Semua proses telah selesai.";
+
+  document.getElementById("timer").textContent = "00";
+  document.getElementById("percent").textContent = "100%";
+  document.getElementById("progress").style.width = "100%";
+
+  document.getElementById("terminal").innerHTML +=
+    "> PROCESS COMPLETED<br>";
+
+  document.getElementById("final").style.display = "block";
+
+  beep(600, .3, "sine");
+  setTimeout(() => beep(900, .4, "sine"), 350);
 }
 </script>
 
