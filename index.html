@@ -6,226 +6,235 @@
 <title>CHAT STATUS</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ min-height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:#030606;
+ color:white;
+ font-family:Arial,sans-serif;
+ overflow:hidden;
+ transition:background .5s;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #030606;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  transition: background .5s;
+body.red{background:#180000}
+body.green{background:#00180a}
+
+.container{
+ width:92%;
+ max-width:460px;
+ padding:24px 18px;
+ text-align:center;
+ border:1px solid #25D366;
+ background:rgba(0,0,0,.92);
+ box-shadow:0 0 25px #00ff6655;
+ border-radius:12px;
 }
 
-body.red {
-  background: #180000;
+.logo{
+ width:68px;
+ height:68px;
+ margin:auto;
+ filter:drop-shadow(0 0 12px #25D366);
 }
 
-body.green {
-  background: #00180a;
+.logo svg{width:100%;height:100%}
+
+.brand{
+ color:#25D366;
+ font-size:21px;
+ font-weight:bold;
+ margin-top:5px;
 }
 
-.container {
-  width: 92%;
-  max-width: 460px;
-  padding: 25px 20px;
-  text-align: center;
-  border: 1px solid #16ff78;
-  background: rgba(0, 0, 0, .88);
-  box-shadow: 0 0 25px #00ff6655;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
+h1{
+ color:#25D366;
+ letter-spacing:4px;
+ font-size:26px;
+ text-shadow:0 0 12px #25D366;
 }
 
-.logo {
-  margin: 0 auto 12px;
-  width: 68px;
-  height: 68px;
-  filter: drop-shadow(0 0 12px #25D366);
-  animation: logoPulse 1.5s infinite alternate;
+.status{
+ color:#ff3030;
+ font-size:13px;
+ letter-spacing:3px;
+ font-weight:bold;
+ margin:18px 0;
+ animation:blink 1s infinite;
 }
 
-.logo svg {
-  width: 100%;
-  height: 100%;
+@keyframes blink{
+ 50%{opacity:.35}
 }
 
-@keyframes logoPulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.09); }
+#message{
+ min-height:45px;
+ font-size:14px;
+ color:#00ff77;
+ margin:18px 0;
+ line-height:1.6;
 }
 
-h1 {
-  color: #25D366;
-  letter-spacing: 4px;
-  font-size: 27px;
-  text-shadow: 0 0 12px #25D366;
+#timer{
+ color:#ff3333;
+ font-size:36px;
+ font-weight:bold;
+ margin:15px;
+ text-shadow:0 0 12px red;
 }
 
-.status {
-  color: #ff3030;
-  font-size: 13px;
-  letter-spacing: 3px;
-  font-weight: bold;
-  margin: 18px 0;
-  animation: blink 1s infinite;
+.progress-box{
+ width:100%;
+ height:15px;
+ border:1px solid #25D366;
+ padding:2px;
+ margin:20px 0 10px;
 }
 
-@keyframes blink {
-  50% { opacity: .35; }
+.progress{
+ height:100%;
+ width:0%;
+ background:linear-gradient(90deg,red,#25D366);
+ box-shadow:0 0 12px #25D366;
 }
 
-#message {
-  min-height: 48px;
-  font-size: 14px;
-  color: #00ff77;
-  margin: 20px 0;
-  line-height: 1.6;
+#percent{font-size:14px}
+
+.terminal{
+ height:100px;
+ overflow:hidden;
+ text-align:left;
+ border:1px solid #17452a;
+ background:#020704;
+ padding:10px;
+ color:#00ff66;
+ font-family:monospace;
+ font-size:11px;
+ line-height:1.6;
+ margin-top:20px;
 }
 
-.progress-box {
-  width: 100%;
-  height: 15px;
-  border: 1px solid #25D366;
-  padding: 2px;
-  margin: 20px 0 10px;
+button{
+ border:1px solid #25D366;
+ background:#06140b;
+ color:#25D366;
+ padding:14px 20px;
+ font-weight:bold;
+ font-size:14px;
+ letter-spacing:2px;
+ border-radius:6px;
+ cursor:pointer;
+ margin-top:15px;
 }
 
-.progress {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ff0000, #25D366);
-  box-shadow: 0 0 12px #25D366;
+button:active{transform:scale(.96)}
+
+#startBtn{display:inline-block}
+
+#phonePanel{display:none;margin-top:20px}
+
+#phonePanel h3{
+ color:#ff3030;
+ font-size:17px;
+ letter-spacing:2px;
 }
 
-#percent {
-  font-size: 14px;
-  color: #fff;
+#phoneInput{
+ width:100%;
+ padding:14px;
+ background:#050b07;
+ color:#25D366;
+ border:1px solid #25D366;
+ outline:none;
+ font-size:17px;
+ text-align:center;
+ border-radius:5px;
 }
 
-#timer {
-  color: #ff3333;
-  font-size: 34px;
-  font-weight: bold;
-  margin: 15px;
-  text-shadow: 0 0 12px red;
+#phoneMessage{
+ color:#ff3333;
+ font-size:12px;
+ min-height:18px;
+ margin-top:8px;
 }
 
-button {
-  border: 1px solid #25D366;
-  background: #06140b;
-  color: #25D366;
-  padding: 14px 24px;
-  font-weight: bold;
-  font-size: 15px;
-  letter-spacing: 2px;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 0 15px #25D36655;
+.error-screen{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:10;
+ background:rgba(0,0,0,.97);
+ color:#ff2929;
+ text-align:center;
+ padding:20px;
+ justify-content:center;
+ align-items:center;
+ flex-direction:column;
+ font-family:monospace;
 }
 
-button:active {
-  transform: scale(.96);
+.error-screen.show{
+ display:flex;
+ animation:errorGlitch .25s;
 }
 
-#startBtn {
-  margin-top: 15px;
+.error-screen h2{
+ font-size:30px;
+ text-shadow:3px 0 red,-3px 0 #00ff66;
+ animation:blink .5s infinite;
 }
 
-.terminal {
-  height: 105px;
-  overflow: hidden;
-  text-align: left;
-  border: 1px solid #17452a;
-  background: #020704;
-  padding: 10px;
-  color: #00ff66;
-  font-family: monospace;
-  font-size: 11px;
-  line-height: 1.6;
-  margin-top: 20px;
+.error-bar{
+ width:90%;
+ max-width:350px;
+ border:1px solid red;
+ padding:10px;
+ margin:7px;
+ color:white;
+ background:#300000;
 }
 
-.error-screen {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 10;
-  background: rgba(0, 0, 0, .96);
-  color: #ff2929;
-  text-align: center;
-  padding: 20px;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-family: monospace;
+.error-screen p{
+ font-size:13px;
+ line-height:2;
 }
 
-.error-screen.show {
-  display: flex;
-  animation: errorGlitch .25s;
+@keyframes errorGlitch{
+ 0%{transform:translateX(-5px)}
+ 50%{transform:translateX(5px)}
+ 100%{transform:translateX(0)}
 }
 
-.error-screen h2 {
-  font-size: 32px;
-  text-shadow: 3px 0 red, -3px 0 #00ff66;
-  animation: blink .5s infinite;
+.shake{
+ animation:shake .35s;
 }
 
-.error-screen p {
-  font-size: 13px;
-  line-height: 2;
+@keyframes shake{
+ 0%,100%{transform:translate(0,0)}
+ 20%{transform:translate(-5px,2px)}
+ 40%{transform:translate(5px,-2px)}
+ 60%{transform:translate(-4px,1px)}
+ 80%{transform:translate(4px,-1px)}
 }
 
-.error-bar {
-  width: 90%;
-  max-width: 350px;
-  border: 1px solid red;
-  padding: 8px;
-  margin: 8px;
-  color: #fff;
-  background: #300000;
+#final{
+ display:none;
+ color:#25D366;
+ font-size:30px;
+ font-weight:bold;
+ line-height:1.5;
+ text-shadow:0 0 18px #25D366;
+ margin-top:25px;
 }
 
-@keyframes errorGlitch {
-  0% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-
-.glitch {
-  animation: glitch .2s 3;
-}
-
-@keyframes glitch {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-3px); }
-  50% { transform: translateX(3px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
-}
-
-#final {
-  display: none;
-  color: #25D366;
-  font-size: 30px;
-  font-weight: bold;
-  line-height: 1.5;
-  text-shadow: 0 0 18px #25D366;
-  margin-top: 25px;
-}
-
-.small {
-  color: #557a63;
-  font-size: 10px;
-  margin-top: 18px;
+.small{
+ color:#557a63;
+ font-size:10px;
+ margin-top:18px;
 }
 </style>
 </head>
@@ -234,236 +243,293 @@ button:active {
 
 <div class="container" id="main">
 
-  <div class="logo">
-    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-      <path fill="#25D366"
-        d="M24 3C12.4 3 3 12.2 3 23.6c0 4.1 1.2 8 3.5 11.3L3 45l10.5-3.4c3.2 1.7 6.8 2.6 10.5 2.6 11.6 0 21-9.2 21-20.6S35.6 3 24 3z"/>
-      <path fill="#fff"
-        d="M33.5 28.7c-.5-.3-3-1.5-3.5-1.7-.5-.2-.8-.3-1.1.3-.3.5-1.3 1.7-1.6 2-.3.3-.6.4-1.1.1-.5-.3-2.2-.8-4.2-2.6-1.5-1.3-2.6-3-2.9-3.5-.3-.5 0-.8.2-1 .2-.2.5-.6.8-.9.3-.3.4-.5.5-.8.2-.3.1-.6 0-.9-.1-.3-1.1-2.7-1.5-3.7-.4-1-.8-.9-1.1-.9h-.9c-.3 0-.9.1-1.4.6-.5.5-1.8 1.7-1.8 4.1s1.8 4.7 2.1 5c.3.3 3.5 5.3 8.5 7.4 1.2.5 2.1.8 2.8 1 1.2.4 2.3.3 3.2.2 1-.1 3-1.2 3.4-2.4.4-1.2.4-2.2.3-2.4-.1-.2-.5-.3-1-.6z"/>
-    </svg>
-  </div>
+ <div class="logo">
+  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+   <path fill="#25D366"
+    d="M24 3C12.4 3 3 12.2 3 23.6c0 4.1 1.2 8 3.5 11.3L3 45l10.5-3.4c3.2 1.7 6.8 2.6 10.5 2.6 11.6 0 21-9.2 21-20.6S35.6 3 24 3z"/>
+   <path fill="#fff"
+    d="M33.5 28.7c-.5-.3-3-1.5-3.5-1.7-.5-.2-.8-.3-1.1.3-.3.5-1.3 1.7-1.6 2-.3.3-.6.4-1.1.1-.5-.3-2.2-.8-4.2-2.6-1.5-1.3-2.6-3-2.9-3.5-.3-.5 0-.8.2-1 .2-.2.5-.6.8-.9.3-.3.4-.5.5-.8.2-.3.1-.6 0-.9-.1-.3-1.1-2.7-1.5-3.7-.4-1-.8-.9-1.1-.9h-.9c-.3 0-.9.1-1.4.6-.5.5-1.8 1.7-1.8 4.1s1.8 4.7 2.1 5c.3.3 3.5 5.3 8.5 7.4 1.2.5 2.1.8 2.8 1 1.2.4 2.3.3 3.2.2 1-.1 3-1.2 3.4-2.4.4-1.2.4-2.2.3-2.4-.1-.2-.5-.3-1-.6z"/>
+  </svg>
+ </div>
 
-  <h1>CHAT STATUS</h1>
+ <div class="brand">WhatsApp</div>
+ <h1>CHAT STATUS</h1>
 
-  <div class="status" id="status">
-    ● SYSTEM INITIALIZING
-  </div>
+ <div class="status" id="status">● SYSTEM INITIALIZING</div>
 
-  <div id="message">
-    Menunggu arahan sistem...
-  </div>
+ <div id="message">Menunggu arahan sistem...</div>
 
-  <div id="timer">30</div>
+ <div id="timer">30</div>
 
-  <div class="progress-box">
-    <div class="progress" id="progress"></div>
-  </div>
+ <div class="progress-box">
+  <div class="progress" id="progress"></div>
+ </div>
 
-  <div id="percent">0%</div>
+ <div id="percent">0%</div>
 
-  <div class="terminal" id="terminal">
-    > SYSTEM READY<br>
-    > INITIALIZING INTERFACE...<br>
-    > WAITING FOR START COMMAND...
-  </div>
+ <div id="phonePanel">
+  <h3>MASUKKAN NOMBOR TELEFON</h3>
+  <input
+   id="phoneInput"
+   type="tel"
+   inputmode="numeric"
+   maxlength="20"
+   placeholder="Contoh: 0123456789"
+   autocomplete="off">
+  <div id="phoneMessage"></div>
+  <button onclick="continueLoading()">TERUSKAN</button>
+ </div>
 
-  <button id="startBtn" onclick="startSystem()">
-    MULAKAN PROSES
-  </button>
+ <div class="terminal" id="terminal">
+  &gt; SYSTEM READY<br>
+  &gt; INITIALIZING INTERFACE...<br>
+  &gt; WAITING FOR START COMMAND...
+ </div>
 
-  <div id="final">
-    APA KAU TUNGGU?!
-  </div>
+ <button id="startBtn" onclick="startSystem()">
+  MULAKAN PROSES
+ </button>
 
-  <div class="small">CHAT STATUS INTERFACE</div>
+ <div id="final">APA KAU TUNGGU?!</div>
+
+ <div class="small">
+  Paparan visual sahaja. Tiada nombor dihantar atau disimpan.
+ </div>
+
 </div>
 
 <div class="error-screen" id="errorScreen">
-  <h2>⚠ SYSTEM ERROR ⚠</h2>
-  <div class="error-bar">CONNECTION STATUS: UNSTABLE</div>
-  <div class="error-bar">RESPONSE: NOT FOUND</div>
-  <div class="error-bar">SYSTEM WARNING: 0x0007</div>
-  <p>
-    RELOADING INTERFACE...<br>
-    PLEASE WAIT...<br>
-    CHECKING VISUAL STATUS...
-  </p>
+ <h2>⚠ SYSTEM ERROR ⚠</h2>
+ <div class="error-bar">CONNECTION STATUS: UNSTABLE</div>
+ <div class="error-bar">RESPONSE: NOT FOUND</div>
+ <div class="error-bar">SYSTEM WARNING: 0x0007</div>
+ <p>
+  RELOADING INTERFACE...<br>
+  PLEASE WAIT...<br>
+  CHECKING VISUAL STATUS...
+ </p>
 </div>
 
 <script>
-let running = false;
 let audioContext;
 let soundTimer;
+let elapsed=0;
+let running=false;
+let finished=false;
+let paused=false;
+let interval;
+let soundStep=0;
 
-const messages = [
-  "Menghubungkan interface...",
-  "Memeriksa status sambungan...",
-  "Menganalisis data paparan...",
-  "Menyegerakkan sistem...",
-  "Amaran: gangguan dikesan!",
-  "Mencuba pemulihan sistem...",
-  "Ralat sambungan sementara!",
-  "Memulakan pemeriksaan semula...",
-  "Proses hampir selesai..."
+const messages=[
+ "Menghubungkan interface...",
+ "Memeriksa status sambungan...",
+ "Menganalisis paparan...",
+ "Menyegerakkan sistem...",
+ "Amaran: gangguan dikesan!",
+ "Mencuba pemulihan...",
+ "Ralat sambungan sementara!",
+ "Memulakan pemeriksaan semula..."
 ];
 
-const terminalMessages = [
-  "CONNECTING...",
-  "CHECKING RESPONSE...",
-  "SCANNING INTERFACE...",
-  "WARNING: SIGNAL UNSTABLE",
-  "RETRYING CONNECTION...",
-  "RELOADING DISPLAY...",
-  "SYSTEM RESPONSE: WAIT...",
-  "PROCESS CONTINUES..."
+const terminalMessages=[
+ "CONNECTING...",
+ "CHECKING RESPONSE...",
+ "SCANNING INTERFACE...",
+ "WARNING: SIGNAL UNSTABLE",
+ "RETRYING CONNECTION...",
+ "RELOADING DISPLAY...",
+ "SYSTEM RESPONSE: WAIT...",
+ "PROCESS CONTINUES..."
 ];
 
-function beep(freq, duration, type = "sawtooth", volume = 0.035) {
-  if (!audioContext) return;
+function beep(freq,duration,type="sawtooth",volume=.025){
+ if(!audioContext)return;
 
-  const osc = audioContext.createOscillator();
-  const gain = audioContext.createGain();
+ const osc=audioContext.createOscillator();
+ const gain=audioContext.createGain();
 
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.value = volume;
+ osc.type=type;
+ osc.frequency.value=freq;
+ gain.gain.value=volume;
 
-  osc.connect(gain);
-  gain.connect(audioContext.destination);
+ osc.connect(gain);
+ gain.connect(audioContext.destination);
 
-  osc.start();
-  gain.gain.exponentialRampToValueAtTime(
-    0.001,
-    audioContext.currentTime + duration
-  );
-  osc.stop(audioContext.currentTime + duration);
+ osc.start();
+ gain.gain.exponentialRampToValueAtTime(
+  .001,audioContext.currentTime+duration
+ );
+ osc.stop(audioContext.currentTime+duration);
 }
 
-function alertSound() {
-  beep(880, .16);
-  setTimeout(() => beep(440, .18), 180);
-  setTimeout(() => beep(990, .14), 380);
+function siren(){
+ if(!audioContext)return;
+
+ const sequence=[620,920,480,1050,550,850];
+ const freq=sequence[soundStep%sequence.length];
+ soundStep++;
+
+ beep(freq,.24,"sawtooth",.025);
+ setTimeout(()=>beep(freq*.65,.18,"square",.018),180);
 }
 
-function startSound() {
-  if (!audioContext) {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+function startSound(){
+ audioContext=new (window.AudioContext||window.webkitAudioContext)();
+
+ if(audioContext.state==="suspended"){
+  audioContext.resume();
+ }
+
+ siren();
+ soundTimer=setInterval(siren,650);
+}
+
+function stopSound(){
+ clearInterval(soundTimer);
+}
+
+function addTerminal(text){
+ const terminal=document.getElementById("terminal");
+ terminal.innerHTML+="&gt; "+text+"<br>";
+ terminal.scrollTop=terminal.scrollHeight;
+}
+
+function showError(){
+ const screen=document.getElementById("errorScreen");
+ const main=document.getElementById("main");
+
+ screen.classList.add("show");
+ main.classList.remove("shake");
+ void main.offsetWidth;
+ main.classList.add("shake");
+
+ if(navigator.vibrate){
+  navigator.vibrate([180,80,180,80,250]);
+ }
+
+ siren();
+
+ setTimeout(()=>{
+  screen.classList.remove("show");
+ },1800);
+}
+
+function updateProgress(){
+ document.getElementById("timer").textContent=30-elapsed;
+ document.getElementById("progress").style.width=
+  (elapsed/30*100)+"%";
+ document.getElementById("percent").textContent=
+  Math.round(elapsed/30*100)+"%";
+}
+
+function startSystem(){
+ if(running)return;
+
+ running=true;
+ startSound();
+
+ document.getElementById("startBtn").style.display="none";
+ document.getElementById("message").textContent=messages[0];
+
+ addTerminal("PROCESS STARTED");
+
+ interval=setInterval(()=>{
+  if(paused||finished)return;
+
+  elapsed++;
+  updateProgress();
+
+  document.body.classList.toggle("red");
+  document.body.classList.toggle("green");
+
+  if(elapsed%3===0){
+   let index=(elapsed/3)%messages.length;
+   document.getElementById("message").textContent=
+    messages[Math.floor(index)];
+
+   addTerminal(
+    terminalMessages[Math.floor(index)%terminalMessages.length]
+   );
   }
 
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
+  if(elapsed===10){
+   paused=true;
+   showPhonePanel();
   }
 
-  alertSound();
+  if(elapsed===14||elapsed===20||elapsed===25){
+   showError();
+  }
 
-  soundTimer = setInterval(() => {
-    beep(700, .12);
-    setTimeout(() => beep(420, .12), 160);
-  }, 1800);
+  if(elapsed>=30){
+   clearInterval(interval);
+   finishSystem();
+  }
+
+ },1000);
 }
 
-function stopSound() {
-  clearInterval(soundTimer);
+function showPhonePanel(){
+ document.getElementById("phonePanel").style.display="block";
+ document.getElementById("message").textContent=
+  "Pemeriksaan memerlukan input untuk meneruskan paparan.";
+
+ document.getElementById("status").textContent=
+  "● INPUT REQUIRED";
+
+ addTerminal("WAITING FOR PHONE FORMAT INPUT");
 }
 
-function addTerminal(text) {
-  const terminal = document.getElementById("terminal");
-  terminal.innerHTML += "> " + text + "<br>";
-  terminal.scrollTop = terminal.scrollHeight;
+function continueLoading(){
+ const input=document.getElementById("phoneInput");
+ const digits=input.value.replace(/\D/g,"");
+ const message=document.getElementById("phoneMessage");
+
+ if(digits.length<7||digits.length>15){
+  message.textContent="Format nombor tidak sah. Sila semak digit.";
+  showError();
+  return;
+ }
+
+ message.textContent="Format diterima.";
+ document.getElementById("phonePanel").style.display="none";
+
+ document.getElementById("message").textContent=
+  "Input diterima. Menyambung proses...";
+
+ document.getElementById("status").textContent=
+  "● PROCESS RESUMED";
+
+ addTerminal("INPUT FORMAT ACCEPTED");
+ addTerminal("RESUMING PROCESS...");
+
+ paused=false;
 }
 
-function showError() {
-  const screen = document.getElementById("errorScreen");
-  screen.classList.add("show");
-  alertSound();
+function finishSystem(){
+ finished=true;
+ stopSound();
 
-  setTimeout(() => {
-    screen.classList.remove("show");
-  }, 2200);
-}
+ document.body.classList.remove("red","green");
 
-function startSystem() {
-  if (running) return;
-  running = true;
+ document.getElementById("status").textContent=
+  "● PROCESS COMPLETED";
 
-  document.getElementById("startBtn").style.display = "none";
-  startSound();
+ document.getElementById("status").style.color="#25D366";
 
-  let seconds = 30;
-  let percent = 0;
-  let messageIndex = 0;
-  let terminalIndex = 0;
+ document.getElementById("message").textContent=
+  "Semua proses telah selesai.";
 
-  const timerElement = document.getElementById("timer");
-  const progress = document.getElementById("progress");
-  const percentElement = document.getElementById("percent");
-  const message = document.getElementById("message");
-  const status = document.getElementById("status");
+ document.getElementById("timer").textContent="00";
+ document.getElementById("percent").textContent="100%";
+ document.getElementById("progress").style.width="100%";
 
-  message.textContent = messages[messageIndex];
-  addTerminal("PROCESS STARTED");
+ addTerminal("PROCESS COMPLETED");
 
-  const interval = setInterval(() => {
-    seconds--;
-    percent = Math.round(((30 - seconds) / 30) * 100);
+ document.getElementById("final").style.display="block";
 
-    timerElement.textContent = seconds;
-    progress.style.width = percent + "%";
-    percentElement.textContent = percent + "%";
-
-    document.body.classList.toggle("red");
-    document.body.classList.toggle("green");
-
-    if (seconds % 3 === 0) {
-      messageIndex = (messageIndex + 1) % messages.length;
-      message.textContent = messages[messageIndex];
-
-      terminalIndex = (terminalIndex + 1) % terminalMessages.length;
-      addTerminal(terminalMessages[terminalIndex]);
-    }
-
-    if (seconds === 22 || seconds === 14 || seconds === 7) {
-      document.getElementById("main").classList.add("glitch");
-      setTimeout(() => {
-        document.getElementById("main").classList.remove("glitch");
-      }, 700);
-    }
-
-    if (seconds === 20 || seconds === 10 || seconds === 5) {
-      showError();
-    }
-
-    if (seconds <= 0) {
-      clearInterval(interval);
-      finishSystem();
-    }
-  }, 1000);
-}
-
-function finishSystem() {
-  stopSound();
-
-  document.body.classList.remove("red", "green");
-
-  document.getElementById("status").textContent =
-    "● PROCESS COMPLETED";
-
-  document.getElementById("status").style.color = "#25D366";
-
-  document.getElementById("message").textContent =
-    "Semua proses telah selesai.";
-
-  document.getElementById("timer").textContent = "00";
-  document.getElementById("percent").textContent = "100%";
-  document.getElementById("progress").style.width = "100%";
-
-  document.getElementById("terminal").innerHTML +=
-    "> PROCESS COMPLETED<br>";
-
-  document.getElementById("final").style.display = "block";
-
-  beep(600, .3, "sine");
-  setTimeout(() => beep(900, .4, "sine"), 350);
+ beep(600,.3,"sine");
+ setTimeout(()=>beep(900,.4,"sine"),350);
 }
 </script>
 
