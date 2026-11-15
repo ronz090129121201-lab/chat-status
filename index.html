@@ -2,55 +2,234 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHAT STATUS</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+  --g:#00ff55;
+  --r:#ff1025;
+  --bg:#000400;
 }
 
-:root {
-  --green: #00ff62;
-  --red: #ff1028;
-  --dark: #000600;
+body{
+  margin:0;
+  min-height:100vh;
+  background:#010301;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:8px;
+  color:white;
+  font-family:Arial,sans-serif;
+  overflow-x:hidden;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #010301;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
-  padding: 10px;
-}
-
-/* BINGKAI UKURAN TELEFON */
-
-.phone-frame {
-  width: min(430px, calc(100vw - 20px));
-  height: min(765px, calc(100svh - 20px));
-  min-height: 620px;
-  aspect-ratio: 9 / 16;
-  position: relative;
-  overflow: hidden;
+.phone{
+  width:min(430px,100%);
+  height:min(765px,calc(100svh - 16px));
+  min-height:620px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
   background:
-    radial-gradient(ellipse at center, #001407 0%, #000500 75%);
-  border: 3px solid var(--green);
-  border-radius: 13px;
-  box-shadow:
-    0 0 12px var(--green),
-    0 0 35px rgba(0,255,80,.35),
-    inset 0 0 35px rgba(0,255,80,.08);
-  padding: 17px 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+    radial-gradient(ellipse at 50% 35%,#001b09 0%,#000700 55%,#000200 100%);
+  clip-path:polygon(
+    0 3%,5% 0,95% 0,100% 3%,
+    100% 97%,95% 100%,5% 100%,0 97%
+  );
+  border:3px solid var(--g);
+  box-shadow:0 0 15px var(--g),inset 0 0 30px #00ff5520;
 }
 
-.phone-frame::before {
-  content: "";
+/* LAPIS TEKSTUR DIGITAL */
+
+.noise{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.28;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 3px,
+      #00ff5510 4px,
+      transparent 5px 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 25px,
+      #00ff5508 26px,
+      transparent 27px 50px
+    );
+}
+
+.noise:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,#00ff5510,transparent 20%,transparent 80%,#00ff5510);
+}
+
+/* JALUR SERONG ATAS DAN BAWAH */
+
+.stripes{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:25px;
+  display:flex;
+  justify-content:space-around;
+  overflow:hidden;
+  z-index:5;
+  background:#000;
+}
+
+.stripes.top{top:0}
+.stripes.bottom{bottom:0}
+
+.stripes span{
+  display:block;
+  width:20px;
+  height:35px;
+  transform:skew(-35deg);
+  background:var(--g);
+  box-shadow:0 0 10px var(--g);
+}
+
+.stripes span:nth-child(3n){
+  background:var(--r);
+  box-shadow:0 0 10px var(--r);
+}
+
+.stripes span:nth-child(2n){
+  opacity:.75;
+}
+
+/* BINGKAI NEON */
+
+.frame{
+  position:absolute;
+  inset:17px 12px;
+  border:2px solid var(--g);
+  box-shadow:
+    0 0 8px var(--g),
+    inset 0 0 12px #00ff5525;
+  clip-path:polygon(
+    0 3%,3% 0,97% 0,100% 3%,
+    100% 97%,97% 100%,3% 100%,0 97%
+  );
+  pointer-events:none;
+  z-index:4;
+}
+
+/* GLITCH DIGITAL DI TEPI */
+
+.edge{
+  position:absolute;
+  width:100%;
+  height:7px;
+  left:0;
+  background:linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--g) 8%,
+    transparent 35%,
+    var(--r) 48%,
+    transparent 72%,
+    var(--g) 90%,
+    transparent
+  );
+  filter:drop-shadow(0 0 5px var(--g));
+  opacity:.75;
+  animation:edgeMove 2s infinite alternate;
+  z-index:2;
+}
+
+.e1{top:14%}
+.e2{top:28%;animation-delay:.4s}
+.e3{top:43%;animation-delay:.8s}
+.e4{top:59%;animation-delay:.3s}
+.e5{top:76%;animation-delay:1s}
+.e6{top:88%;animation-delay:.6s}
+
+@keyframes edgeMove{
+  0%{transform:translateX(-5px);opacity:.3}
+  100%{transform:translateX(5px);opacity:.9}
+}
+
+.side-glitch{
+  position:absolute;
+  top:5%;
+  bottom:5%;
+  width:7px;
+  opacity:.6;
+  background:repeating-linear-gradient(
+    to bottom,
+    var(--g) 0 2px,
+    transparent 2px 9px,
+    var(--r) 9px 11px,
+    transparent 11px 19px
+  );
+  filter:drop-shadow(0 0 5px var(--g));
+  z-index:2;
+}
+
+.side-glitch.left{left:0}
+.side-glitch.right{right:0}
+
+/* KANDUNGAN */
+
+.content{
+  position:relative;
+  z-index:3;
+  height:100%;
+  padding:36px 17px 32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+/* LOGO DAN TAJUK */
+
+.header{text-align:center}
+
+.logo{
+  width:76px;
+  height:76px;
+  margin:auto;
+  filter:drop-shadow(0 0 10px var(--g));
+}
+
+.logo svg{width:100%;height:100%}
+
+.brand{
+  color:var(--g);
+  font-size:23px;
+  font-weight:bold;
+  margin-top:0;
+  text-shadow:0 0 12px var(--g);
+}
+
+h1{
+  margin:9px 0 8px;
+  font-size:clamp(29px,8vw,40px);
+  letter-spacing:3px;
+  color:var(--g);
+  text-shadow:0 0 10px var(--g),0 0 22px #00ff55;
+}
+
+.status{
+  color:var(--r);
+  font-size:18px;
+  font-weight:bold;
+  letter-spacing:4px;
+  text-shadow:0 0 12px var(--r);
+}
+
+.description{
+  color:var(--g);
+  font-size:13px
