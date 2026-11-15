@@ -8,6 +8,11 @@
 <style>
 *{box-sizing:border-box}
 
+:root{
+ --green:#00ff65;
+ --red:#ff1025;
+}
+
 body{
  margin:0;
  min-height:100vh;
@@ -15,65 +20,87 @@ body{
  align-items:center;
  justify-content:center;
  padding:15px;
- background:#020403;
- color:#00ff66;
+ background:#020604;
+ color:var(--green);
  font-family:monospace;
- transition:background .5s,color .5s;
+ transition:background .15s,color .15s;
+ overflow:hidden;
 }
 
 body.red{
- background:#160000;
- color:#ff2020;
+ background:#210005;
+ color:var(--red);
 }
 
 .card{
  width:100%;
  max-width:440px;
- padding:24px;
- background:#030b06;
- border:1px solid #00ff66;
- box-shadow:0 0 25px #00ff6655;
- transition:border .5s,box-shadow .5s;
+ padding:25px 20px;
+ background:#030a06;
+ border:1px solid var(--green);
+ box-shadow:0 0 25px #00ff6555;
+ transition:border-color .15s,box-shadow .15s;
+ position:relative;
+ overflow:hidden;
 }
 
 body.red .card{
- border-color:#ff2020;
- box-shadow:0 0 25px #ff202055;
+ border-color:var(--red);
+ box-shadow:0 0 30px #ff102566;
+}
+
+.logo{
+ width:70px;
+ height:70px;
+ margin:auto;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ background:#075e36;
+ color:white;
+ font-size:38px;
+ font-weight:bold;
+ box-shadow:0 0 25px #00ff65;
+ animation:pulse 1s infinite alternate;
+}
+
+@keyframes pulse{
+ to{transform:scale(1.08);box-shadow:0 0 35px var(--red)}
 }
 
 h1{
  text-align:center;
- font-size:27px;
  letter-spacing:4px;
+ font-size:26px;
  text-shadow:0 0 12px currentColor;
 }
 
 .subtitle{
  text-align:center;
- font-size:11px;
+ font-size:10px;
  letter-spacing:3px;
 }
 
 button{
  width:100%;
  padding:16px;
- margin-top:25px;
- background:#00ff66;
- color:#001b09;
+ margin-top:22px;
  border:0;
+ background:var(--green);
+ color:#001b09;
  font-weight:bold;
- font-size:17px;
+ font-size:16px;
  cursor:pointer;
 }
 
 body.red button{
- background:#ff2020;
+ background:var(--red);
  color:white;
 }
 
 #terminal{
  display:none;
- height:270px;
+ height:240px;
  overflow:hidden;
  padding:12px;
  border:1px solid currentColor;
@@ -82,27 +109,40 @@ body.red button{
  overflow-wrap:anywhere;
 }
 
+.error{
+ color:#ff263b;
+ font-weight:bold;
+ text-shadow:0 0 8px red;
+ animation:glitch .15s infinite alternate;
+}
+
+@keyframes glitch{
+ 0%{transform:translateX(-2px)}
+ 100%{transform:translateX(2px)}
+}
+
 .bar{
- height:13px;
- background:#15251a;
+ height:12px;
+ background:#183023;
  margin-top:20px;
 }
 
 .progress{
  height:100%;
  width:0;
- background:#00ff66;
+ background:var(--green);
+ box-shadow:0 0 15px var(--green);
  transition:width 30s linear;
 }
 
 body.red .progress{
- background:#ff2020;
+ background:var(--red);
+ box-shadow:0 0 15px var(--red);
 }
 
 #percent{
  text-align:right;
  margin-top:8px;
- font-size:14px;
 }
 
 #result{
@@ -112,19 +152,45 @@ body.red .progress{
 }
 
 #result h2{
- font-size:30px;
- animation:glow 1s infinite alternate;
+ font-size:29px;
+ animation:pulse 1s infinite alternate;
 }
 
-@keyframes glow{
- from{text-shadow:0 0 5px currentColor}
- to{text-shadow:0 0 22px currentColor}
+#screenError{
+ display:none;
+ position:absolute;
+ inset:0;
+ z-index:5;
+ background:#b00012;
+ color:white;
+ text-align:center;
+ padding:60px 15px;
+ font-size:23px;
+ font-weight:bold;
+}
+
+#screenError small{
+ font-size:12px;
+ display:block;
+ margin-top:20px;
+}
+
+.scanlines{
+ pointer-events:none;
+ position:fixed;
+ inset:0;
+ z-index:10;
+ background:repeating-linear-gradient(
+ transparent 0px,
+ transparent 3px,
+ #ffffff09 4px
+ );
 }
 
 .small{
- font-size:10px;
- opacity:.65;
  text-align:center;
+ font-size:9px;
+ opacity:.6;
  margin-top:20px;
 }
 </style>
@@ -132,10 +198,14 @@ body.red .progress{
 
 <body>
 
+<div class="scanlines"></div>
+
 <div class="card">
 
+<div class="logo">◉</div>
+
 <h1>CHAT STATUS</h1>
-<p class="subtitle">SYSTEM INTERFACE</p>
+<p class="subtitle">DIGITAL INTERFACE</p>
 
 <div id="start">
 <button onclick="startSystem()">INITIALIZE SYSTEM</button>
@@ -151,26 +221,33 @@ body.red .progress{
 
 <div id="result">
 <h2>APA KAU TUNGGU?!</h2>
-<p>😈 Jangan panik.</p>
+<p>😂 Terkena!</p>
 <button onclick="location.reload()">RESTART</button>
 </div>
 
-<p class="small">VISUAL EFFECTS ONLY</p>
+<div id="screenError">
+SYSTEM ERROR
+<small>VISUAL PROCESS INTERRUPTED</small>
+</div>
+
+<p class="small">VISUAL DEMONSTRATION</p>
 
 </div>
 
 <script>
 let audio;
+let soundEnabled=false;
+let timers=[];
 
-function beep(freq=600,duration=0.12){
- if(!audio)return;
+function beep(freq=500,duration=.1,volume=.035){
+ if(!audio || !soundEnabled)return;
 
  let osc=audio.createOscillator();
  let gain=audio.createGain();
 
- osc.type="square";
+ osc.type="sawtooth";
  osc.frequency.value=freq;
- gain.gain.value=0.035;
+ gain.gain.value=volume;
 
  osc.connect(gain);
  gain.connect(audio.destination);
@@ -179,85 +256,126 @@ function beep(freq=600,duration=0.12){
  osc.stop(audio.currentTime+duration);
 }
 
+function siren(){
+ beep(900,.18,.05);
+ setTimeout(()=>beep(420,.18,.05),200);
+}
+
 const messages=[
-"[WARNING] Initializing interface...",
-"[ERROR 0x001] Connection interrupted",
-"[SYSTEM] Reconnecting...",
-"[ALERT] Unusual visual activity detected",
-"[ERROR 0x004] Process interrupted",
-"[SYSTEM] Restarting visual modules...",
-"[WARNING] Critical sequence started",
-"[ERROR 0x009] Data stream unstable",
-"[SYSTEM] Synchronizing...",
-"[ALERT] Final sequence initiated",
-"[ERROR] Unexpected response",
-"[SYSTEM] Processing..."
+"> INITIALIZING SYSTEM...",
+"> CONNECTING VISUAL MODULE...",
+"> ERROR 0x001: CONNECTION LOST",
+"> RESTARTING INTERFACE...",
+"> WARNING: UNSTABLE SIGNAL",
+"> FATAL ERROR DETECTED",
+"> SYSTEM FAILURE...",
+"> REPAIRING VISUAL PROCESS...",
+"> DATA STREAM INTERRUPTED",
+"> RECONNECTING...",
+"> WARNING: CRITICAL STATE",
+"> FINAL SEQUENCE STARTED...",
+"> PROCESSING..."
 ];
+
+function addMessage(){
+
+ let terminal=document.getElementById("terminal");
+ let line=document.createElement("div");
+
+ let msg=messages[Math.floor(Math.random()*messages.length)];
+
+ line.textContent=msg;
+
+ if(msg.includes("ERROR") ||
+    msg.includes("FAILURE") ||
+    msg.includes("WARNING")){
+   line.className="error";
+ }
+
+ terminal.appendChild(line);
+
+ while(terminal.children.length>12){
+  terminal.removeChild(terminal.firstChild);
+ }
+
+ terminal.scrollTop=terminal.scrollHeight;
+}
 
 function startSystem(){
 
-audio=new (window.AudioContext || window.webkitAudioContext)();
-audio.resume();
+ audio=new (window.AudioContext||window.webkitAudioContext)();
+ soundEnabled=true;
+ audio.resume();
 
-document.getElementById("start").style.display="none";
+ document.getElementById("start").style.display="none";
+ document.getElementById("terminal").style.display="block";
 
-let terminal=document.getElementById("terminal");
-let progress=document.getElementById("progress");
-let percent=document.getElementById("percent");
+ let terminal=document.getElementById("terminal");
+ let progress=document.getElementById("progress");
+ let percent=document.getElementById("percent");
 
-terminal.style.display="block";
+ let start=Date.now();
 
-let start=Date.now();
+ let colorTimer=setInterval(()=>{
+  document.body.classList.toggle("red");
+  siren();
+ },1400);
 
-let colorTimer=setInterval(()=>{
- document.body.classList.toggle("red");
- beep( Math.random()>0.5 ? 850:420,0.07);
-},1800);
+ timers.push(colorTimer);
 
-let textTimer=setInterval(()=>{
+ let textTimer=setInterval(()=>{
+  addMessage();
+  beep(350+Math.random()*900,.07,.025);
+ },350);
 
-let line=document.createElement("div");
-line.textContent=messages[Math.floor(Math.random()*messages.length)];
+ timers.push(textTimer);
 
-terminal.appendChild(line);
+ let percentTimer=setInterval(()=>{
 
-while(terminal.children.length>12){
- terminal.removeChild(terminal.firstChild);
-}
+  let elapsed=Date.now()-start;
+  let value=Math.min(100,Math.floor(elapsed/30000*100));
 
-terminal.scrollTop=terminal.scrollHeight;
+  percent.textContent=value+"%";
 
-beep(350+Math.random()*700,0.06);
+  if(value>=100){
+   finish();
+   clearInterval(percentTimer);
+  }
 
-},450);
+ },100);
 
-let percentTimer=setInterval(()=>{
+ timers.push(percentTimer);
 
-let elapsed=Date.now()-start;
-let value=Math.min(100,Math.floor(elapsed/30000*100));
+ progress.style.width="100%";
 
-percent.textContent=value+"%";
+ let errorTimer=setTimeout(()=>{
+  document.getElementById("screenError").style.display="block";
+  siren();
 
-if(value>=100){
+  setTimeout(()=>{
+   document.getElementById("screenError").style.display="none";
+  },1200);
 
-clearInterval(percentTimer);
-clearInterval(textTimer);
-clearInterval(colorTimer);
+ },12000);
 
-terminal.style.display="none";
-percent.style.display="none";
+ timers.push(errorTimer);
 
-document.getElementById("result").style.display="block";
+ function finish(){
 
-beep(950,0.3);
-setTimeout(()=>beep(500,0.3),350);
+  timers.forEach(t=>{
+   clearInterval(t);
+   clearTimeout(t);
+  });
 
-}
+  document.getElementById("terminal").style.display="none";
+  document.querySelector(".bar").style.display="none";
+  percent.style.display="none";
 
-},100);
+  document.getElementById("result").style.display="block";
 
-progress.style.width="100%";
-
+  beep(1000,.3,.06);
+  setTimeout(()=>beep(500,.3,.06),350);
+ }
 }
 </script>
 
