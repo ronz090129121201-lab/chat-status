@@ -9,85 +9,93 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#071b18;
-  color:white;
-  font-family:Arial,sans-serif;
+ margin:0;
+ min-height:100vh;
+ background:#020806;
+ color:#00ff75;
+ font-family:monospace;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
 }
 
 .card{
-  width:100%;
-  max-width:390px;
-  background:#102b26;
-  border:1px solid #245448;
-  border-radius:22px;
-  padding:30px 22px;
-  text-align:center;
-  box-shadow:0 15px 50px #0008;
+ width:100%;
+ max-width:430px;
+ background:#030d09;
+ border:1px solid #00ff75;
+ padding:25px;
+ box-shadow:0 0 25px #00ff7540;
 }
 
-.logo{
-  width:65px;
-  height:65px;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:#16876a;
-  font-size:30px;
+h1{
+ text-align:center;
+ letter-spacing:4px;
+ text-shadow:0 0 12px #00ff75;
 }
 
-h1{font-size:25px;margin:20px 0 8px}
-
-p{
-  color:#b9d2ca;
-  line-height:1.6;
+.subtitle{
+ text-align:center;
+ color:#70ffad;
+ font-size:12px;
 }
 
 button{
-  background:#20bd91;
-  color:#06251d;
-  border:0;
-  border-radius:12px;
-  padding:15px 35px;
-  font-weight:bold;
-  font-size:16px;
-  margin-top:20px;
-  cursor:pointer;
+ width:100%;
+ padding:15px;
+ margin-top:25px;
+ background:#00ff75;
+ border:0;
+ color:#001b0b;
+ font-weight:bold;
+ font-size:16px;
+ cursor:pointer;
 }
 
-#loading,#result{display:none}
+#terminal{
+ display:none;
+ height:250px;
+ overflow:hidden;
+ border:1px solid #075c32;
+ padding:12px;
+ font-size:12px;
+ line-height:1.8;
+}
+
+.line{
+ animation:flash .25s infinite alternate;
+}
+
+@keyframes flash{
+ from{opacity:.5}
+ to{opacity:1}
+}
 
 .bar{
-  height:9px;
-  background:#29483e;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:25px;
+ height:12px;
+ background:#092719;
+ margin-top:20px;
 }
 
 .progress{
-  height:100%;
-  width:0;
-  background:#20d39a;
-  transition:width 15s linear;
+ height:100%;
+ width:0;
+ background:#00ff75;
+ box-shadow:0 0 15px #00ff75;
+ transition:width 20s linear;
 }
 
-#status{
-  min-height:28px;
-  font-size:15px;
+#percent{
+ text-align:right;
+ margin-top:8px;
 }
 
-.notice{
-  margin-top:30px;
-  font-size:10px;
-  color:#8da79e;
+#result{
+ display:none;
+ text-align:center;
 }
+
 </style>
 </head>
 
@@ -95,67 +103,86 @@ button{
 
 <div class="card">
 
-<div class="logo">◉</div>
-
-<h1>Chat Status</h1>
-
-<p id="intro">Sedia untuk memulakan pemeriksaan?</p>
+<h1>CHAT STATUS</h1>
+<p class="subtitle">DIGITAL INTERFACE</p>
 
 <div id="start">
-<button onclick="startCheck()">MULA</button>
+<button onclick="startSystem()">INITIALIZE</button>
 </div>
 
-<div id="loading">
-<p id="status">Menghubungkan...</p>
+<div id="terminal"></div>
+
 <div class="bar">
 <div class="progress" id="progress"></div>
 </div>
-</div>
+
+<div id="percent">0%</div>
 
 <div id="result">
-<h2>😂 Terkena!</h2>
-<p>Pemeriksaan telah selesai.</p>
-<button onclick="location.reload()">KEMBALI</button>
-</div>
-
-<div class="notice">
-Halaman hiburan tidak rasmi. Tidak mengakses atau mengubah akaun WhatsApp.
+<h2>PROCESS COMPLETE</h2>
+<p>😂 Terkena!</p>
+<button onclick="location.reload()">RESTART</button>
 </div>
 
 </div>
 
 <script>
-function startCheck(){
-
-document.getElementById("intro").style.display="none";
-document.getElementById("start").style.display="none";
-document.getElementById("loading").style.display="block";
 
 let messages=[
-"Menghubungkan...",
-"Menyemak status...",
-"Menganalisis maklumat...",
-"Pemeriksaan hampir selesai...",
-"Menyelesaikan proses..."
+"> Initializing interface...",
+"> Establishing visual connection...",
+"> Loading digital modules...",
+"> Scanning demo environment...",
+"> Analyzing simulated data...",
+"> Running security animation...",
+"> Synchronizing interface...",
+"> Finalizing process..."
 ];
 
-let status=document.getElementById("status");
+function startSystem(){
+
+document.getElementById("start").style.display="none";
+
+let terminal=document.getElementById("terminal");
 let progress=document.getElementById("progress");
+let percent=document.getElementById("percent");
+
+terminal.style.display="block";
+
+let start=Date.now();
+
+let interval=setInterval(()=>{
+
+let elapsed=Date.now()-start;
+let value=Math.min(100,Math.floor(elapsed/20000*100));
+
+percent.textContent=value+"%";
+
+let random=Math.floor(Math.random()*messages.length);
+
+let line=document.createElement("div");
+line.className="line";
+line.textContent=messages[random];
+
+terminal.appendChild(line);
+
+while(terminal.children.length>10){
+terminal.removeChild(terminal.firstChild);
+}
+
+if(value>=100){
+clearInterval(interval);
+terminal.style.display="none";
+percent.style.display="none";
+document.getElementById("result").style.display="block";
+}
+
+},250);
 
 progress.style.width="100%";
 
-messages.forEach((message,index)=>{
-setTimeout(()=>{
-status.textContent=message;
-},index*3000);
-});
-
-setTimeout(()=>{
-document.getElementById("loading").style.display="none";
-document.getElementById("result").style.display="block";
-},15000);
-
 }
+
 </script>
 
 </body>
