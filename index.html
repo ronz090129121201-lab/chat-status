@@ -13,558 +13,121 @@
 body {
     margin: 0;
     min-height: 100vh;
-    background: #020303;
+    background: #11191d;
     color: white;
     font-family: Consolas, monospace;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding: 0 12px 30px;
     overflow-x: hidden;
-    padding: 15px;
 }
 
 .main {
-    width: 100%;
-    max-width: 390px;
-    min-height: 650px;
-    border: 1px solid #00ff66;
+    width: min(680px, calc(100vw - 36px));
+    min-height: 720px;
+    margin-top: 0;
+    padding: 20px 22px 40px;
+    border-left: 2px solid #b5ff68;
+    border-right: 2px solid #b5ff68;
+    border-bottom: 2px solid #b5ff68;
+    background: #080b0c;
     box-shadow:
-        0 0 8px #00ff66,
-        inset 0 0 15px #062b14;
-    padding: 20px 17px;
+        0 0 12px #aaff60,
+        inset 0 0 15px #243c20;
     position: relative;
     overflow: hidden;
-    background: #030605;
-}
-
-.main::before,
-.main::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    left: 0;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        red,
-        #00ff66,
-        transparent
-    );
-    animation: borderMove 2s linear infinite;
-}
-
-.main::before {
-    top: 0;
-}
-
-.main::after {
-    bottom: 0;
-}
-
-@keyframes borderMove {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
 }
 
 .logo {
+    width: 100px;
+    height: 100px;
     display: block;
-    width: 66px;
-    height: 66px;
-    margin: 5px auto 7px;
-    filter: drop-shadow(0 0 10px #00ff66);
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 0 12px #8aff00);
 }
 
 .brand {
     text-align: center;
-    color: #00ff66;
-    font-size: 17px;
-    letter-spacing: 2px;
-    margin-bottom: 23px;
-    text-shadow: 0 0 10px #00ff66;
+    color: #b6ff64;
+    font-size: 27px;
+    letter-spacing: 3px;
+    margin-bottom: 38px;
+    text-shadow: 0 0 10px #8aff00;
 }
 
 h1 {
     text-align: center;
-    font-size: 32px;
-    letter-spacing: 3px;
-    margin: 10px 0;
-    color: white;
-    text-shadow:
-        2px 0 red,
-        -2px 0 #00ff66,
-        0 0 15px #00ff66;
+    font-size: clamp(30px, 5vw, 48px);
+    margin: 0 0 30px;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 8px #fff;
 }
 
 .required {
     text-align: center;
-    color: red;
-    font-size: 13px;
-    letter-spacing: 4px;
+    color: #ff806b;
     font-weight: bold;
-    margin: 15px 0;
-    animation: redBlink .7s infinite;
-}
-
-@keyframes redBlink {
-    50% { opacity: .3; }
+    font-size: 19px;
+    letter-spacing: 6px;
+    margin-bottom: 32px;
 }
 
 .description {
-    color: #9bafa2;
     text-align: center;
-    font-size: 11px;
-    line-height: 1.8;
-    margin-bottom: 25px;
+    color: #e5eeee;
+    font-size: 15px;
+    line-height: 2;
+    font-weight: bold;
+    margin-bottom: 30px;
 }
 
 .timer {
     text-align: center;
-    font-size: 43px;
+    font-size: 68px;
     font-weight: bold;
-    color: #00ff66;
-    text-shadow: 0 0 15px #00ff66;
-    margin: 15px 0;
+    color: #d5ffb0;
+    text-shadow: 0 0 20px #65ff00;
+    margin: 20px 0 28px;
 }
 
 .progress {
-    height: 9px;
-    border: 1px solid #52665a;
+    height: 15px;
+    border: 2px solid #dce9e9;
     background: #111;
-    margin: 15px 0 8px;
     overflow: hidden;
 }
 
 .progress-fill {
-    height: 100%;
     width: 0%;
-    background: linear-gradient(
-        90deg,
-        red,
-        orange,
-        #00ff66
-    );
-    box-shadow: 0 0 12px #00ff66;
+    height: 100%;
+    background: linear-gradient(90deg, red, orange, #aaff00);
+    box-shadow: 0 0 12px #aaff00;
     transition: width .3s linear;
 }
 
 .percent {
     text-align: right;
-    color: #00ff66;
-    font-size: 11px;
-}
-
-.input-area {
-    margin-top: 25px;
-    display: none;
-    animation: appear .5s ease;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.input-label {
-    color: #00ff66;
-    font-size: 12px;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100%;
-    background: #050a07;
-    border: 1px solid #00ff66;
-    color: white;
-    padding: 14px;
-    font-family: inherit;
-    font-size: 15px;
-    outline: none;
-    box-shadow: inset 0 0 8px #063b1b;
-}
-
-input:focus {
-    box-shadow: 0 0 12px #00ff66;
+    margin-top: 10px;
+    color: #d7ffb4;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 button {
     width: 100%;
-    padding: 13px;
-    margin-top: 12px;
-    border: 1px solid #00ff66;
-    background: #063519;
-    color: #00ff66;
+    padding: 15px;
+    margin-top: 22px;
+    background: #10240e;
+    border: 1px solid #aaff66;
+    color: #caff9c;
     font-family: inherit;
+    font-size: 16px;
     font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
     cursor: pointer;
-    transition: .2s;
+    box-shadow: 0 0 10px #7dff36;
 }
 
 button:active {
-    background: #00ff66;
-    color: black;
-}
-
-.warning {
-    color: red;
-    font-size: 11px;
-    margin-top: 10px;
-    min-height: 15px;
-}
-
-.terminal {
-    border: 1px solid #087d39;
-    background: #010502;
-    padding: 12px;
-    margin-top: 27px;
-    min-height: 115px;
-    color: #00ff66;
-    font-size: 10px;
-    line-height: 1.9;
-    box-shadow: inset 0 0 12px #063b1b;
-}
-
-.terminal-title {
-    color: #fff;
-    border-bottom: 1px solid #087d39;
-    padding-bottom: 7px;
-    margin-bottom: 7px;
-}
-
-.log {
-    min-height: 15px;
-}
-
-.error-screen {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    background: rgba(0,0,0,.96);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-}
-
-.error-title {
-    color: red;
-    font-size: 35px;
-    font-weight: bold;
-    text-shadow:
-        3px 0 #00ff66,
-        -3px 0 red,
-        0 0 20px red;
-    animation: glitch .15s infinite;
-}
-
-.error-message {
-    color: white;
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 35px;
-    animation: glitch .2s infinite;
-}
-
-@keyframes glitch {
-    0% { transform: translate(0); }
-    25% { transform: translate(3px,-2px); }
-    50% { transform: translate(-3px,2px); }
-    75% { transform: translate(2px,2px); }
-    100% { transform: translate(0); }
-}
-
-body.shake {
-    animation: shake .12s infinite;
-}
-
-@keyframes shake {
-    0% { transform: translate(0); }
-    25% { transform: translate(3px,-2px); }
-    50% { transform: translate(-3px,2px); }
-    75% { transform: translate(2px,1px); }
-    100% { transform: translate(0); }
-}
-
-body.flash {
-    animation: flash .25s infinite;
-}
-
-@keyframes flash {
-    0%,100% { background: #020303; }
-    50% { background: #300000; }
-}
-
-@media (max-width: 420px) {
-    .main {
-        max-width: 390px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="main">
-
-    <!-- Ikon chat bergaya WhatsApp, bukan logo rasmi -->
-    <svg class="logo" viewBox="0 0 100 100">
-        <path
-            fill="#00d66b"
-            d="M50 5 C25 5 7 24 7 48 C7 58 10 67 16 75
-            L10 94 L30 87 C36 90 43 92 50 92
-            C75 92 94 73 94 48 C94 24 75 5 50 5Z"/>
-        <path
-            fill="white"
-            d="M68 59 C65 57 61 55 58 57
-            L54 62 C45 58 39 52 36 44
-            L41 40 C43 37 40 32 38 29
-            L34 24 C32 22 29 23 27 25
-            C22 30 23 38 26 45
-            C32 59 43 69 57 74
-            C65 77 73 73 75 67
-            C76 64 72 61 68 59Z"/>
-    </svg>
-
-    <div class="brand">WhatsApp</div>
-
-    <h1>CHAT STATUS</h1>
-
-    <div class="required">INPUT REQUIRED</div>
-
-    <div class="description">
-        SYSTEM INTERFACE INITIALIZATION<br>
-        PLEASE WAIT WHILE VISUAL SEQUENCE RUNS
-    </div>
-
-    <div class="timer" id="timer">30</div>
-
-    <div class="progress">
-        <div class="progress-fill" id="progress"></div>
-    </div>
-
-    <div class="percent" id="percent">0%</div>
-
-    <div class="input-area" id="inputArea">
-        <div class="input-label">
-            MASUKKAN NOMOR TELEFON
-        </div>
-
-        <input
-            type="tel"
-            id="phone"
-            inputmode="numeric"
-            autocomplete="off"
-            aria-label="Nombor telefon"
-        >
-
-        <button onclick="continueLoading()">
-            TERUSKAN
-        </button>
-
-        <div class="warning" id="warning"></div>
-    </div>
-
-    <div class="terminal">
-        <div class="terminal-title">SYSTEM TERMINAL</div>
-        <div class="log" id="log1">> WAITING FOR START COMMAND</div>
-        <div class="log" id="log2">> CHECKING INTERFACE</div>
-        <div class="log" id="log3">> SIGNAL STATUS: STANDBY</div>
-    </div>
-
-</div>
-
-<div class="error-screen" id="errorScreen">
-    <div class="error-title">SYSTEM ERROR</div>
-    <div class="error-message">APA KAU TUNGGU?!</div>
-</div>
-
-<script>
-let remaining = 30;
-let progress = 0;
-let paused = false;
-let finished = false;
-let interval;
-
-const timer = document.getElementById("timer");
-const bar = document.getElementById("progress");
-const percent = document.getElementById("percent");
-const inputArea = document.getElementById("inputArea");
-const warning = document.getElementById("warning");
-
-let audioContext = null;
-let audioEnabled = false;
-
-function enableAudio() {
-    if (!audioContext) {
-        audioContext = new (
-            window.AudioContext ||
-            window.webkitAudioContext
-        )();
-    }
-
-    if (audioContext.state === "suspended") {
-        audioContext.resume();
-    }
-
-    audioEnabled = true;
-}
-
-document.addEventListener("pointerdown", enableAudio, {
-    once: true
-});
-
-function tone(freq, duration, type, volume) {
-    if (!audioEnabled || !audioContext) return;
-
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-
-    oscillator.type = type;
-    oscillator.frequency.value = freq;
-
-    gain.gain.setValueAtTime(
-        volume,
-        audioContext.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime + duration
-    );
-
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
-
-    oscillator.start();
-    oscillator.stop(audioContext.currentTime + duration);
-}
-
-function alarm() {
-    tone(850, .25, "sawtooth", .07);
-
-    setTimeout(() => {
-        tone(620, .25, "square", .06);
-    }, 160);
-}
-
-function glitchSound() {
-    tone(1200, .08, "square", .045);
-
-    setTimeout(() => {
-        tone(300, .12, "sawtooth", .05);
-    }, 80);
-}
-
-function updateDisplay() {
-    timer.textContent = remaining;
-
-    progress = ((30 - remaining) / 30) * 100;
-
-    bar.style.width = progress + "%";
-    percent.textContent = Math.round(progress) + "%";
-}
-
-function startLoading() {
-    interval = setInterval(() => {
-
-        if (paused || finished) return;
-
-        if (remaining > 0) {
-            remaining--;
-            updateDisplay();
-
-            if (remaining <= 7) {
-                alarm();
-            } else if (remaining <= 15) {
-                tone(500, .08, "square", .025);
-            }
-
-            if (remaining === 10) {
-                paused = true;
-                inputArea.style.display = "block";
-
-                document.getElementById("log1").textContent =
-                    "> INPUT REQUIRED";
-
-                document.getElementById("log2").textContent =
-                    "> WAITING FOR USER INPUT";
-
-                document.getElementById("log3").textContent =
-                    "> COUNTDOWN PAUSED";
-            }
-        }
-
-        if (remaining === 0) {
-            finishSequence();
-        }
-
-    }, 1000);
-}
-
-function continueLoading() {
-    const phone = document.getElementById("phone").value;
-    const digits = phone.replace(/\D/g, "");
-
-    if (digits.length < 7 || digits.length > 15) {
-        warning.textContent =
-            "Sila masukkan nombor yang mempunyai 7–15 digit.";
-        glitchSound();
-        return;
-    }
-
-    warning.textContent = "";
-    document.getElementById("phone").disabled = true;
-
-    document.querySelector("button").disabled = true;
-    document.querySelector("button").textContent = "PROCESSING...";
-
-    inputArea.style.display = "none";
-
-    document.getElementById("log1").textContent =
-        "> INPUT RECEIVED LOCALLY";
-
-    document.getElementById("log2").textContent =
-        "> RESUMING VISUAL SEQUENCE";
-
-    document.getElementById("log3").textContent =
-        "> PLEASE WAIT";
-
-    paused = false;
-}
-
-function finishSequence() {
-    if (finished) return;
-
-    finished = true;
-    clearInterval(interval);
-
-    timer.textContent = "00";
-    bar.style.width = "100%";
-    percent.textContent = "100%";
-
-    document.getElementById("log1").textContent =
-        "> SYSTEM ERROR";
-
-    document.getElementById("log2").textContent =
-        "> SIGNAL UNSTABLE";
-
-    document.getElementById("log3").textContent =
-        "> SEQUENCE COMPLETED";
-
-    const screen = document.getElementById("errorScreen");
-    screen.style.display = "flex";
-
-    document.body.classList.add("shake", "flash");
-
-    alarm();
-    glitch
