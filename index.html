@@ -6,534 +6,565 @@
 <title>CHAT STATUS</title>
 
 <style>
-*{box-sizing:border-box}
-
-:root{
- --green:#00ff73;
- --red:#ff3038;
+* {
+    box-sizing: border-box;
 }
 
-body{
- margin:0;
- min-height:100vh;
- padding:20px 12px;
- display:flex;
- align-items:center;
- justify-content:center;
- background:#010402;
- color:white;
- font-family:Arial,sans-serif;
- overflow-x:hidden;
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #020303;
+    color: white;
+    font-family: Consolas, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    padding: 15px;
 }
 
-body:before{
- content:"";
- position:fixed;
- inset:0;
- pointer-events:none;
- background:
- repeating-linear-gradient(
-  0deg,
-  transparent 0 3px,
-  rgba(0,255,90,.08) 4px,
-  transparent 5px 8px
- ),
- radial-gradient(
-  ellipse at center,
-  rgba(0,255,80,.12),
-  transparent 65%
- );
+.main {
+    width: 100%;
+    max-width: 390px;
+    min-height: 650px;
+    border: 1px solid #00ff66;
+    box-shadow:
+        0 0 8px #00ff66,
+        inset 0 0 15px #062b14;
+    padding: 20px 17px;
+    position: relative;
+    overflow: hidden;
+    background: #030605;
 }
 
-.frame{
- width:min(100%,900px);
- position:relative;
- padding:26px 22px 20px;
- border:3px solid var(--green);
- border-radius:18px;
- box-shadow:
-  0 0 12px var(--green),
-  inset 0 0 22px rgba(0,255,100,.18);
- background:rgba(0,8,3,.96);
- text-align:center;
+.main::before,
+.main::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    left: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        red,
+        #00ff66,
+        transparent
+    );
+    animation: borderMove 2s linear infinite;
 }
 
-.frame:before,
-.frame:after{
- content:"";
- position:absolute;
- left:0;
- right:0;
- height:12px;
- background:repeating-linear-gradient(
-  120deg,
-  var(--green) 0 22px,
-  transparent 22px 40px,
-  var(--red) 40px 62px,
-  transparent 62px 80px
- );
+.main::before {
+    top: 0;
 }
 
-.frame:before{top:-3px}
-.frame:after{bottom:-3px}
-
-/* WHATSAPP LOGO */
-.logo{
- width:85px;
- height:85px;
- margin:0 auto 8px;
- filter:drop-shadow(0 0 12px #00ff73);
+.main::after {
+    bottom: 0;
 }
 
-.logo svg{
- width:100%;
- height:100%;
+@keyframes borderMove {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
-.brand{
- font-size:25px;
- font-weight:800;
- color:var(--green);
- text-shadow:0 0 12px var(--green);
+.logo {
+    display: block;
+    width: 66px;
+    height: 66px;
+    margin: 5px auto 7px;
+    filter: drop-shadow(0 0 10px #00ff66);
 }
 
-h1{
- margin:6px 0 2px;
- font-size:clamp(38px,8vw,62px);
- letter-spacing:7px;
- color:var(--green);
- text-shadow:0 0 12px var(--green);
+.brand {
+    text-align: center;
+    color: #00ff66;
+    font-size: 17px;
+    letter-spacing: 2px;
+    margin-bottom: 23px;
+    text-shadow: 0 0 10px #00ff66;
 }
 
-.status{
- color:var(--red);
- font-size:clamp(17px,4vw,25px);
- font-weight:900;
- letter-spacing:7px;
- margin:6px 0;
+h1 {
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 3px;
+    margin: 10px 0;
+    color: white;
+    text-shadow:
+        2px 0 red,
+        -2px 0 #00ff66,
+        0 0 15px #00ff66;
 }
 
-.desc{
- font-size:clamp(14px,3vw,21px);
- color:var(--green);
- margin:8px 0;
+.required {
+    text-align: center;
+    color: red;
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: bold;
+    margin: 15px 0;
+    animation: redBlink .7s infinite;
 }
 
-.counter{
- font-size:clamp(50px,10vw,72px);
- font-weight:900;
- color:var(--red);
- text-shadow:0 0 18px var(--red);
- margin:4px 0;
+@keyframes redBlink {
+    50% { opacity: .3; }
 }
 
-.progress-wrap{
- height:24px;
- border:3px solid var(--green);
- border-radius:9px;
- padding:3px;
- box-shadow:0 0 10px rgba(0,255,100,.4);
+.description {
+    color: #9bafa2;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 25px;
 }
 
-.progress{
- height:100%;
- width:0%;
- border-radius:4px;
- background:linear-gradient(
-  90deg,
-  red,
-  #ffb000,
-  var(--green)
- );
- transition:width .25s linear;
+.timer {
+    text-align: center;
+    font-size: 43px;
+    font-weight: bold;
+    color: #00ff66;
+    text-shadow: 0 0 15px #00ff66;
+    margin: 15px 0;
 }
 
-.percent{
- font-size:22px;
- margin:8px 0 12px;
+.progress {
+    height: 9px;
+    border: 1px solid #52665a;
+    background: #111;
+    margin: 15px 0 8px;
+    overflow: hidden;
 }
 
-label{
- display:block;
- color:var(--red);
- font-size:clamp(19px,4vw,28px);
- font-weight:900;
- margin:14px 0 10px;
- text-shadow:0 0 10px var(--red);
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(
+        90deg,
+        red,
+        orange,
+        #00ff66
+    );
+    box-shadow: 0 0 12px #00ff66;
+    transition: width .3s linear;
 }
 
-input{
- width:100%;
- max-width:720px;
- padding:17px 14px;
- border:3px solid var(--green);
- border-radius:12px;
- background:#001006;
- color:white;
- font-size:25px;
- text-align:center;
- outline:none;
+.percent {
+    text-align: right;
+    color: #00ff66;
+    font-size: 11px;
 }
 
-button{
- display:block;
- margin:18px auto 14px;
- padding:12px 45px;
- border:3px solid var(--green);
- border-radius:12px;
- background:#001b0b;
- color:var(--green);
- font-size:24px;
- font-weight:900;
- letter-spacing:3px;
- cursor:pointer;
- box-shadow:0 0 13px rgba(0,255,100,.4);
+.input-area {
+    margin-top: 25px;
+    display: none;
+    animation: appear .5s ease;
 }
 
-button:disabled,
-input:disabled{
- opacity:.55;
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.terminal{
- margin-top:14px;
- padding:10px 14px;
- border:2px solid #00b94d;
- border-radius:4px;
- color:#00ff73;
- text-align:left;
- font-family:monospace;
- font-size:clamp(12px,2.5vw,17px);
- line-height:1.5;
- min-height:110px;
- white-space:pre-wrap;
- overflow-wrap:anywhere;
- text-shadow:0 0 7px #00ff73;
+.input-label {
+    color: #00ff66;
+    font-size: 12px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }
 
-.hidden{display:none!important}
-
-.error-mode{
- animation:flash .22s steps(2,end) infinite;
+input {
+    width: 100%;
+    background: #050a07;
+    border: 1px solid #00ff66;
+    color: white;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-shadow: inset 0 0 8px #063b1b;
 }
 
-.error-mode .frame{
- border-color:var(--red);
- box-shadow:
-  0 0 18px var(--red),
-  inset 0 0 28px rgba(255,0,0,.24);
+input:focus {
+    box-shadow: 0 0 12px #00ff66;
 }
 
-.error-mode h1,
-.error-mode .logo,
-.error-mode .brand{
- color:var(--red);
- text-shadow:0 0 16px var(--red);
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    border: 1px solid #00ff66;
+    background: #063519;
+    color: #00ff66;
+    font-family: inherit;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: .2s;
 }
 
-.error-mode .status,
-.error-mode .desc{
- color:white;
+button:active {
+    background: #00ff66;
+    color: black;
 }
 
-.shake{
- animation:shake .12s linear 8;
+.warning {
+    color: red;
+    font-size: 11px;
+    margin-top: 10px;
+    min-height: 15px;
 }
 
-.glitch{
- animation:glitch .18s steps(2,end) 8;
+.terminal {
+    border: 1px solid #087d39;
+    background: #010502;
+    padding: 12px;
+    margin-top: 27px;
+    min-height: 115px;
+    color: #00ff66;
+    font-size: 10px;
+    line-height: 1.9;
+    box-shadow: inset 0 0 12px #063b1b;
 }
 
-@keyframes flash{
- 50%{filter:hue-rotate(95deg) brightness(1.5)}
+.terminal-title {
+    color: #fff;
+    border-bottom: 1px solid #087d39;
+    padding-bottom: 7px;
+    margin-bottom: 7px;
 }
 
-@keyframes shake{
- 0%,100%{transform:translate(0,0)}
- 25%{transform:translate(-7px,2px)}
- 50%{transform:translate(6px,-2px)}
- 75%{transform:translate(-4px,-1px)}
+.log {
+    min-height: 15px;
 }
 
-@keyframes glitch{
- 0%{transform:translate(0)}
- 25%{transform:translate(3px,-2px)}
- 50%{transform:translate(-3px,2px)}
- 75%{transform:translate(2px,1px)}
+.error-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: rgba(0,0,0,.96);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
 }
 
-@media(max-width:520px){
- .frame{padding:22px 13px 16px}
- .status{letter-spacing:4px}
- .terminal{font-size:11px}
- input{font-size:19px}
+.error-title {
+    color: red;
+    font-size: 35px;
+    font-weight: bold;
+    text-shadow:
+        3px 0 #00ff66,
+        -3px 0 red,
+        0 0 20px red;
+    animation: glitch .15s infinite;
+}
+
+.error-message {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 35px;
+    animation: glitch .2s infinite;
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    25% { transform: translate(3px,-2px); }
+    50% { transform: translate(-3px,2px); }
+    75% { transform: translate(2px,2px); }
+    100% { transform: translate(0); }
+}
+
+body.shake {
+    animation: shake .12s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    25% { transform: translate(3px,-2px); }
+    50% { transform: translate(-3px,2px); }
+    75% { transform: translate(2px,1px); }
+    100% { transform: translate(0); }
+}
+
+body.flash {
+    animation: flash .25s infinite;
+}
+
+@keyframes flash {
+    0%,100% { background: #020303; }
+    50% { background: #300000; }
+}
+
+@media (max-width: 420px) {
+    .main {
+        max-width: 390px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<main class="frame" id="panel">
+<div class="main">
 
- <!-- LOGO WHATSAPP -->
- <div class="logo">
-  <svg viewBox="0 0 100 100"
-       xmlns="http://www.w3.org/2000/svg">
-   <path
-    fill="#25D366"
-    d="M50 5C25.1 5 5 25.1 5 50c0 8.2 2.2 16.2 6.4 23.2L5 95l22.4-6.1C34.1 93 42 95 50 95c24.9 0 45-20.1 45-45S74.9 5 50 5z"/>
-   <path
-    fill="#fff"
-    d="M73.4 62.7c-1.2 3.5-6 6.4-9.9 7.2-2.6.5-6 .9-17.4-3.8-14.6-6-24-20.8-24.7-21.7-.7-.9-5.9-7.9-5.9-15 0-7.1 3.7-10.6 5.2-12.1 1.3-1.4 3.4-2 5.4-2h1.8c1.6 0 2.4.1 3.5 2.7 1.3 3.1 4.5 11 4.9 11.8.4.8.7 1.7.1 2.7-.5 1-1 1.6-1.8 2.5-.8.9-1.7 2-2.4 2.7-.8.8-1.6 1.7-.7 3.3.9 1.6 4.1 6.7 8.8 10.8 6 5.3 11.1 7 12.7 7.8 1.6.8 2.5.7 3.4-.4.9-1.1 3.9-4.5 4.9-6.1 1-1.6 2-1.3 3.4-.8 1.4.5 9.1 4.3 10.7 5.1 1.6.8 2.7 1.2 3.1 1.9.4.7.4 4-.8 7.4z"
-    transform="translate(15 14) scale(.75)"/>
-  </svg>
- </div>
+    <!-- Ikon chat bergaya WhatsApp, bukan logo rasmi -->
+    <svg class="logo" viewBox="0 0 100 100">
+        <path
+            fill="#00d66b"
+            d="M50 5 C25 5 7 24 7 48 C7 58 10 67 16 75
+            L10 94 L30 87 C36 90 43 92 50 92
+            C75 92 94 73 94 48 C94 24 75 5 50 5Z"/>
+        <path
+            fill="white"
+            d="M68 59 C65 57 61 55 58 57
+            L54 62 C45 58 39 52 36 44
+            L41 40 C43 37 40 32 38 29
+            L34 24 C32 22 29 23 27 25
+            C22 30 23 38 26 45
+            C32 59 43 69 57 74
+            C65 77 73 73 75 67
+            C76 64 72 61 68 59Z"/>
+    </svg>
 
- <div class="brand">CHAT INTERFACE</div>
+    <div class="brand">WhatsApp</div>
 
- <h1>CHAT STATUS</h1>
+    <h1>CHAT STATUS</h1>
 
- <div class="status" id="status">
- • INPUT REQUIRED •
- </div>
+    <div class="required">INPUT REQUIRED</div>
 
- <p class="desc" id="desc">
- Pemeriksaan visual sedang menunggu input untuk meneruskan paparan.
- </p>
+    <div class="description">
+        SYSTEM INTERFACE INITIALIZATION<br>
+        PLEASE WAIT WHILE VISUAL SEQUENCE RUNS
+    </div>
 
- <div class="counter" id="counter">30</div>
+    <div class="timer" id="timer">30</div>
 
- <div class="progress-wrap">
-  <div class="progress" id="progress"></div>
- </div>
+    <div class="progress">
+        <div class="progress-fill" id="progress"></div>
+    </div>
 
- <div class="percent" id="percent">0%</div>
+    <div class="percent" id="percent">0%</div>
 
- <section id="inputArea" class="hidden">
+    <div class="input-area" id="inputArea">
+        <div class="input-label">
+            MASUKKAN NOMOR TELEFON
+        </div>
 
-  <label for="phoneInput">
-   MASUKKAN NOMOR TELEFON
-  </label>
+        <input
+            type="tel"
+            id="phone"
+            inputmode="numeric"
+            autocomplete="off"
+            aria-label="Nombor telefon"
+        >
 
-  <input
-   id="phoneInput"
-   type="tel"
-   inputmode="numeric"
-   autocomplete="off"
-  >
+        <button onclick="continueLoading()">
+            TERUSKAN
+        </button>
 
-  <button id="continueBtn">
-   TERUSKAN
-  </button>
+        <div class="warning" id="warning"></div>
+    </div>
 
- </section>
+    <div class="terminal">
+        <div class="terminal-title">SYSTEM TERMINAL</div>
+        <div class="log" id="log1">> WAITING FOR START COMMAND</div>
+        <div class="log" id="log2">> CHECKING INTERFACE</div>
+        <div class="log" id="log3">> SIGNAL STATUS: STANDBY</div>
+    </div>
 
- <div class="terminal" id="terminal">
-&gt; WAITING FOR START COMMAND...
-&gt; CHECKING INTERFACE...
-&gt; SCANNING VISUAL ELEMENTS...
-&gt; SIGNAL STATUS: STANDBY
-&gt; WAITING FOR INPUT
- </div>
+</div>
 
- <div
-  id="final"
-  class="hidden"
-  style="
-   font-size:clamp(30px,7vw,54px);
-   font-weight:900;
-   color:#ff3038;
-   text-shadow:0 0 16px red;
-   margin-top:18px;
-  "
- >
-  APA KAU TUNGGU?!
- </div>
-
-</main>
+<div class="error-screen" id="errorScreen">
+    <div class="error-title">SYSTEM ERROR</div>
+    <div class="error-message">APA KAU TUNGGU?!</div>
+</div>
 
 <script>
-const $=id=>document.getElementById(id);
+let remaining = 30;
+let progress = 0;
+let paused = false;
+let finished = false;
+let interval;
 
-const counter=$('counter');
-const progress=$('progress');
-const percent=$('percent');
-const input=$('phoneInput');
-const button=$('continueBtn');
-const terminal=$('terminal');
+const timer = document.getElementById("timer");
+const bar = document.getElementById("progress");
+const percent = document.getElementById("percent");
+const inputArea = document.getElementById("inputArea");
+const warning = document.getElementById("warning");
 
-let elapsed=0;
-let errorShown=false;
-let started=false;
+let audioContext = null;
+let audioEnabled = false;
 
-function log(line){
- terminal.textContent+="\n> "+line;
- terminal.scrollTop=terminal.scrollHeight;
+function enableAudio() {
+    if (!audioContext) {
+        audioContext = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    audioEnabled = true;
 }
 
-let audioCtx;
-
-function beep(freq=620,duration=.12,type='square',volume=.035){
- try{
-  audioCtx=audioCtx||new(
-   window.AudioContext||
-   window.webkitAudioContext
-  )();
-
-  if(audioCtx.state==='suspended'){
-   audioCtx.resume();
-  }
-
-  const osc=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-
-  osc.type=type;
-  osc.frequency.value=freq;
-  gain.gain.value=volume;
-
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  osc.start();
-
-  gain.gain.exponentialRampToValueAtTime(
-   .001,
-   audioCtx.currentTime+duration
-  );
-
-  osc.stop(audioCtx.currentTime+duration);
-
- }catch(e){}
-}
-
-function alarm(){
- let n=0;
-
- const a=setInterval(()=>{
-  beep(n%2?880:420,.16,'sawtooth',.045);
-  n++;
-
-  if(n>=10){
-   clearInterval(a);
-  }
- },210);
-}
-
-function showError(message){
-
- if(errorShown)return;
-
- errorShown=true;
-
- document.body.classList.add(
-  'error-mode',
-  'shake'
- );
-
- $('status').textContent='• SYSTEM ERROR •';
- $('desc').textContent=message;
-
- $('panel').classList.add('glitch');
-
- log('WARNING: VISUAL ERROR DETECTED');
- log('RETRY STATUS: ATTENTION REQUIRED');
-
- alarm();
-
- if(navigator.vibrate){
-  navigator.vibrate([120,60,120,60,220]);
- }
-
- setTimeout(()=>{
-  document.body.classList.remove('shake');
- },1200);
-}
-
-button.addEventListener('click',()=>{
-
- const digits=input.value.replace(/\D/g,'');
-
- if(digits.length<7||digits.length>15){
-
-  showError(
-   'Format input tidak sah. Sila semak semula nombor yang dimasukkan.'
-  );
-
-  log('INPUT FORMAT: INVALID');
-  return;
- }
-
- input.disabled=true;
- button.disabled=true;
-
- log('INPUT FORMAT: ACCEPTED LOCALLY');
- log('CONTINUING VISUAL SEQUENCE...');
-
- beep(740,.2,'triangle');
-
+document.addEventListener("pointerdown", enableAudio, {
+    once: true
 });
 
-function start(){
+function tone(freq, duration, type, volume) {
+    if (!audioEnabled || !audioContext) return;
 
- if(started)return;
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
 
- started=true;
+    oscillator.type = type;
+    oscillator.frequency.value = freq;
 
- log('PROCESS STARTED');
-
- const timer=setInterval(()=>{
-
-  elapsed++;
-
-  const remaining=Math.max(0,30-elapsed);
-
-  counter.textContent=remaining;
-
-  const p=Math.min(
-   100,
-   Math.round(elapsed/30*100)
-  );
-
-  progress.style.width=p+'%';
-  percent.textContent=p+'%';
-
-  if(elapsed===10){
-
-   $('inputArea').classList.remove('hidden');
-
-   log('INPUT PANEL READY');
-  }
-
-  if(elapsed%4===0){
-   beep(500+Math.random()*300,.07,'square',.018);
-  }
-
-  if(elapsed===18&&!errorShown){
-   log('WARNING: SIGNAL UNSTABLE');
-  }
-
-  if(elapsed>=30){
-
-   clearInterval(timer);
-
-   if(!errorShown){
-    showError(
-     'Sambungan visual terganggu. Urutan paparan telah tamat.'
+    gain.gain.setValueAtTime(
+        volume,
+        audioContext.currentTime
     );
-   }
 
-   $('final').classList.remove('hidden');
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
 
-   log('VISUAL SEQUENCE COMPLETE');
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
 
-   beep(980,.35,'sawtooth',.05);
-  }
-
- },1000);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
 }
 
-start();
-</script>
+function alarm() {
+    tone(850, .25, "sawtooth", .07);
 
-</body>
-</html>
+    setTimeout(() => {
+        tone(620, .25, "square", .06);
+    }, 160);
+}
+
+function glitchSound() {
+    tone(1200, .08, "square", .045);
+
+    setTimeout(() => {
+        tone(300, .12, "sawtooth", .05);
+    }, 80);
+}
+
+function updateDisplay() {
+    timer.textContent = remaining;
+
+    progress = ((30 - remaining) / 30) * 100;
+
+    bar.style.width = progress + "%";
+    percent.textContent = Math.round(progress) + "%";
+}
+
+function startLoading() {
+    interval = setInterval(() => {
+
+        if (paused || finished) return;
+
+        if (remaining > 0) {
+            remaining--;
+            updateDisplay();
+
+            if (remaining <= 7) {
+                alarm();
+            } else if (remaining <= 15) {
+                tone(500, .08, "square", .025);
+            }
+
+            if (remaining === 10) {
+                paused = true;
+                inputArea.style.display = "block";
+
+                document.getElementById("log1").textContent =
+                    "> INPUT REQUIRED";
+
+                document.getElementById("log2").textContent =
+                    "> WAITING FOR USER INPUT";
+
+                document.getElementById("log3").textContent =
+                    "> COUNTDOWN PAUSED";
+            }
+        }
+
+        if (remaining === 0) {
+            finishSequence();
+        }
+
+    }, 1000);
+}
+
+function continueLoading() {
+    const phone = document.getElementById("phone").value;
+    const digits = phone.replace(/\D/g, "");
+
+    if (digits.length < 7 || digits.length > 15) {
+        warning.textContent =
+            "Sila masukkan nombor yang mempunyai 7–15 digit.";
+        glitchSound();
+        return;
+    }
+
+    warning.textContent = "";
+    document.getElementById("phone").disabled = true;
+
+    document.querySelector("button").disabled = true;
+    document.querySelector("button").textContent = "PROCESSING...";
+
+    inputArea.style.display = "none";
+
+    document.getElementById("log1").textContent =
+        "> INPUT RECEIVED LOCALLY";
+
+    document.getElementById("log2").textContent =
+        "> RESUMING VISUAL SEQUENCE";
+
+    document.getElementById("log3").textContent =
+        "> PLEASE WAIT";
+
+    paused = false;
+}
+
+function finishSequence() {
+    if (finished) return;
+
+    finished = true;
+    clearInterval(interval);
+
+    timer.textContent = "00";
+    bar.style.width = "100%";
+    percent.textContent = "100%";
+
+    document.getElementById("log1").textContent =
+        "> SYSTEM ERROR";
+
+    document.getElementById("log2").textContent =
+        "> SIGNAL UNSTABLE";
+
+    document.getElementById("log3").textContent =
+        "> SEQUENCE COMPLETED";
+
+    const screen = document.getElementById("errorScreen");
+    screen.style.display = "flex";
+
+    document.body.classList.add("shake", "flash");
+
+    alarm();
+    glitch
