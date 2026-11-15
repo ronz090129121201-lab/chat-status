@@ -7,127 +7,590 @@
 
 <style>
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  --green: #00ff75;
+  --red: #ff003c;
+  --black: #020403;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    background: #11191d;
-    color: white;
-    font-family: Consolas, monospace;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0 12px 30px;
-    overflow-x: hidden;
+  margin: 0;
+  min-height: 100vh;
+  background: #020403;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 20px 12px;
 }
 
-.main {
-    width: min(680px, calc(100vw - 36px));
-    min-height: 720px;
-    margin-top: 0;
-    padding: 20px 22px 40px;
-    border-left: 2px solid #b5ff68;
-    border-right: 2px solid #b5ff68;
-    border-bottom: 2px solid #b5ff68;
-    background: #080b0c;
-    box-shadow:
-        0 0 12px #aaff60,
-        inset 0 0 15px #243c20;
-    position: relative;
-    overflow: hidden;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      transparent 0px,
+      transparent 3px,
+      rgba(0,255,100,.025) 4px
+    );
+  z-index: 10;
+}
+
+.container {
+  width: 100%;
+  max-width: 430px;
+  position: relative;
+  border: 1px solid #00ff75;
+  padding: 22px 18px;
+  background: #030806;
+  box-shadow:
+    0 0 12px rgba(0,255,100,.25),
+    inset 0 0 20px rgba(0,255,100,.04);
+}
+
+.container::before,
+.container::after {
+  content: "";
+  position: absolute;
+  width: 45px;
+  height: 4px;
+  background: var(--red);
+  box-shadow: 0 0 12px var(--red);
+}
+
+.container::before {
+  top: -2px;
+  left: 15px;
+}
+
+.container::after {
+  bottom: -2px;
+  right: 15px;
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
-    display: block;
-    margin: 0 auto 8px;
-    filter: drop-shadow(0 0 12px #8aff00);
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-.brand {
-    text-align: center;
-    color: #b6ff64;
-    font-size: 27px;
-    letter-spacing: 3px;
-    margin-bottom: 38px;
-    text-shadow: 0 0 10px #8aff00;
+.logo svg {
+  width: 54px;
+  height: 54px;
+  filter: drop-shadow(0 0 8px #00ff75);
+}
+
+.logo-name {
+  color: var(--green);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-top: 5px;
 }
 
 h1 {
-    text-align: center;
-    font-size: clamp(30px, 5vw, 48px);
-    margin: 0 0 30px;
-    letter-spacing: 2px;
-    color: #fff;
-    text-shadow: 0 0 8px #fff;
+  text-align: center;
+  color: white;
+  font-size: 34px;
+  letter-spacing: 3px;
+  margin: 12px 0 8px;
+  text-shadow: 0 0 12px rgba(255,255,255,.5);
 }
 
-.required {
-    text-align: center;
-    color: #ff806b;
-    font-weight: bold;
-    font-size: 19px;
-    letter-spacing: 6px;
-    margin-bottom: 32px;
+.status-label {
+  text-align: center;
+  color: var(--red);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+  animation: blink 1s infinite;
 }
 
 .description {
-    text-align: center;
-    color: #e5eeee;
-    font-size: 15px;
-    line-height: 2;
-    font-weight: bold;
-    margin-bottom: 30px;
+  text-align: center;
+  color: #8a9b90;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
 .timer {
-    text-align: center;
-    font-size: 68px;
-    font-weight: bold;
-    color: #d5ffb0;
-    text-shadow: 0 0 20px #65ff00;
-    margin: 20px 0 28px;
+  text-align: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: var(--green);
+  text-shadow: 0 0 15px var(--green);
+  margin: 15px 0;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  color: #9da99f;
+  font-size: 10px;
+  margin-bottom: 7px;
+  letter-spacing: 1px;
 }
 
 .progress {
-    height: 15px;
-    border: 2px solid #dce9e9;
-    background: #111;
-    overflow: hidden;
+  height: 9px;
+  width: 100%;
+  background: #17221b;
+  border: 1px solid #304638;
+  overflow: hidden;
 }
 
-.progress-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, red, orange, #aaff00);
-    box-shadow: 0 0 12px #aaff00;
-    transition: width .3s linear;
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #ff003c,
+    #ff7b00,
+    #00ff75
+  );
+  box-shadow: 0 0 12px #00ff75;
+  transition: width .2s linear;
 }
 
-.percent {
-    text-align: right;
-    margin-top: 10px;
-    color: #d7ffb4;
-    font-size: 16px;
-    font-weight: bold;
+.input-area {
+  display: none;
+  margin-top: 22px;
+}
+
+.input-title {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  color: var(--green);
+  background: #010503;
+  border: 1px solid var(--green);
+  outline: none;
+  font-size: 15px;
+  letter-spacing: 2px;
+}
+
+input:focus {
+  box-shadow: 0 0 10px rgba(0,255,117,.35);
 }
 
 button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 22px;
-    background: #10240e;
-    border: 1px solid #aaff66;
-    color: #caff9c;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    cursor: pointer;
-    box-shadow: 0 0 10px #7dff36;
+  width: 100%;
+  border: none;
+  padding: 13px;
+  margin-top: 12px;
+  color: #000;
+  background: var(--green);
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0,255,117,.35);
 }
 
 button:active {
+  transform: scale(.98);
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.start-button {
+  margin-top: 20px;
+}
+
+.message {
+  color: var(--red);
+  font-size: 11px;
+  margin-top: 9px;
+  min-height: 14px;
+}
+
+.terminal {
+  margin-top: 22px;
+  padding: 12px;
+  min-height: 95px;
+  background: #010503;
+  border: 1px solid #087b43;
+  color: #00ff75;
+  font-family: monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  overflow: hidden;
+}
+
+.terminal-title {
+  color: #fff;
+  border-bottom: 1px solid #164b2c;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  letter-spacing: 2px;
+}
+
+.terminal-line {
+  white-space: nowrap;
+}
+
+.end-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #030000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.end-screen h2 {
+  color: var(--red);
+  font-size: clamp(28px, 8vw, 48px);
+  text-shadow: 0 0 15px red;
+  animation: glitch .12s infinite;
+}
+
+.end-screen p {
+  color: var(--green);
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.error-tag {
+  color: white;
+  background: var(--red);
+  padding: 8px 20px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  box-shadow: 0 0 20px red;
+}
+
+body.error-mode {
+  animation: shake .15s infinite;
+}
+
+body.error-mode .container {
+  border-color: var(--red);
+  animation: borderFlash .25s infinite;
+}
+
+body.error-mode .status-label {
+  color: var(--green);
+}
+
+@keyframes blink {
+  50% { opacity: .25; }
+}
+
+@keyframes shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-3px,2px); }
+  50% { transform: translate(3px,-2px); }
+  75% { transform: translate(-2px,-1px); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes glitch {
+  0% { transform: translate(2px,0); }
+  50% { transform: translate(-2px,1px); }
+  100% { transform: translate(1px,-1px); }
+}
+
+@keyframes borderFlash {
+  0% { box-shadow: 0 0 20px red; }
+  50% { box-shadow: 0 0 20px lime; }
+  100% { box-shadow: 0 0 20px red; }
+}
+
+@media(max-width:360px) {
+  h1 { font-size: 29px; }
+  .container { padding: 18px 13px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainPanel">
+
+  <div class="logo">
+    <svg viewBox="0 0 64 64" aria-label="Ikon mesej">
+      <path
+        d="M32 5C17 5 5 16 5 30c0 6 2 12 6 16L7 59l14-4c4 2 7 3 11 3 15 0 27-12 27-27S47 5 32 5Z"
+        fill="#00c96b"/>
+      <path
+        d="M23 18c-2-1-4 1-5 4-2 5 2 12 8 17 6 5 13 7 17 4 3-2 4-5 2-7l-6-3-4 4c-4-1-8-5-9-9l3-3-2-6Z"
+        fill="white"/>
+    </svg>
+    <div class="logo-name">WhatsApp</div>
+  </div>
+
+  <h1>CHAT STATUS</h1>
+
+  <div class="status-label" id="statusLabel">
+    INPUT REQUIRED
+  </div>
+
+  <div class="description">
+    SYSTEM INTERFACE INITIALIZATION<br>
+    PRESS START TO BEGIN THE SEQUENCE
+  </div>
+
+  <div class="timer" id="timer">30</div>
+
+  <div class="progress-info">
+    <span>PROCESS STATUS</span>
+    <span id="percent">0%</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <button class="start-button" id="startButton">
+    MULA
+  </button>
+
+  <div class="input-area" id="inputArea">
+    <div class="input-title">
+      MASUKKAN NOMOR TELEFON
+    </div>
+
+    <input
+      id="phoneInput"
+      type="tel"
+      inputmode="numeric"
+      autocomplete="off"
+      maxlength="15"
+      aria-label="Nombor telefon"
+    >
+
+    <button id="continueButton">
+      TERUSKAN
+    </button>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-title">SYSTEM TERMINAL</div>
+    <div id="logs">
+      <div class="terminal-line">> WAITING FOR START COMMAND</div>
+      <div class="terminal-line">> SIGNAL STATUS: STANDBY</div>
+      <div class="terminal-line">> INTERFACE READY</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="end-screen" id="endScreen">
+  <div class="error-tag">SYSTEM ERROR</div>
+  <h2>APA KAU TUNGGU?!</h2>
+  <p>SEQUENCE COMPLETE</p>
+  <p>LOCAL VISUAL DISPLAY — NO ACCOUNT CONNECTION</p>
+</div>
+
+<script>
+const timerDisplay = document.getElementById("timer");
+const progressBar = document.getElementById("progressBar");
+const percentDisplay = document.getElementById("percent");
+const startButton = document.getElementById("startButton");
+const inputArea = document.getElementById("inputArea");
+const phoneInput = document.getElementById("phoneInput");
+const continueButton = document.getElementById("continueButton");
+const message = document.getElementById("message");
+const logs = document.getElementById("logs");
+const statusLabel = document.getElementById("statusLabel");
+const endScreen = document.getElementById("endScreen");
+
+let remaining = 30;
+let elapsed = 0;
+let interval = null;
+let started = false;
+let paused = false;
+let audioContext = null;
+let alarmTimer = null;
+
+function addLog(text) {
+  const line = document.createElement("div");
+  line.className = "terminal-line";
+  line.textContent = "> " + text;
+  logs.appendChild(line);
+
+  while (logs.children.length > 6) {
+    logs.removeChild(logs.firstChild);
+  }
+}
+
+function initializeAudio() {
+  if (!audioContext) {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (AudioContextClass) {
+      audioContext = new AudioContextClass();
+    }
+  }
+
+  if (audioContext && audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+}
+
+function beep(frequency, duration, volume = 0.07) {
+  if (!audioContext) return;
+
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+
+  oscillator.type = "sawtooth";
+  oscillator.frequency.value = frequency;
+
+  gain.gain.setValueAtTime(volume, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + duration
+  );
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+}
+
+function startAlarm() {
+  if (alarmTimer) return;
+
+  alarmTimer = setInterval(() => {
+    beep(650, .16, .045);
+    setTimeout(() => beep(900, .16, .045), 180);
+  }, 550);
+}
+
+function stopAlarm() {
+  clearInterval(alarmTimer);
+  alarmTimer = null;
+}
+
+function updateProgress() {
+  const progress = (elapsed / 30) * 100;
+
+  progressBar.style.width = progress + "%";
+  percentDisplay.textContent = Math.floor(progress) + "%";
+}
+
+function beginCountdown() {
+  paused = false;
+  inputArea.style.display = "none";
+  startButton.style.display = "none";
+  statusLabel.textContent = "SYSTEM INITIALIZING";
+
+  addLog("INITIALIZATION RESUMED");
+
+  interval = setInterval(() => {
+    remaining--;
+    elapsed++;
+
+    timerDisplay.textContent = remaining;
+    updateProgress();
+
+    if (remaining <= 5) {
+      beep(850, .12, .04);
+    }
+
+    if (remaining === 10 && elapsed === 20) {
+      pauseForInput();
+      return;
+    }
+
+    if (remaining <= 0) {
+      finishSequence();
+    }
+  }, 1000);
+}
+
+function pauseForInput() {
+  clearInterval(interval);
+  paused = true;
+
+  timerDisplay.textContent = "10";
+  statusLabel.textContent = "INPUT REQUIRED";
+  inputArea.style.display = "block";
+
+  addLog("SEQUENCE PAUSED");
+  addLog("WAITING FOR LOCAL INPUT");
+
+  beep(500, .3);
+}
+
+function finishSequence() {
+  clearInterval(interval);
+  stopAlarm();
+
+  timerDisplay.textContent = "00";
+  progressBar.style.width = "100%";
+  percentDisplay.textContent = "100%";
+
+  addLog("SEQUENCE COMPLETE");
+  addLog("VISUAL ERROR DISPLAY");
+
+  document.body.classList.add("error-mode");
+  startAlarm();
+
+  setTimeout(() => {
+    endScreen.style.display = "flex";
+  }, 1200);
+}
+
+startButton.addEventListener("click", () => {
+  if (started) return;
+
+  started = true;
+  initializeAudio();
+
+  beep(600, .2);
+  addLog("START COMMAND RECEIVED");
+  addLog("CHECKING INTERFACE");
+
+  beginCountdown();
+});
+
+continueButton.addEventListener("click", () => {
+  const digits = phoneInput.value.replace(/\D/g, "");
+
+  if (digits.length < 7 || digits.length > 15) {
+    message.textContent =
+      "Sila masukkan nombor yang mempunyai 7 hingga 15 digit.";
+    beep(220, .2);
+    return;
+  }
+
+  message.textContent = "";
+  phoneInput.value = "";
+
+  addLog("LOCAL INPUT ACCEPTED");
+  beep(700, .2);
+
+  beginCountdown();
+});
+</script>
+
+</body>
+</html>
