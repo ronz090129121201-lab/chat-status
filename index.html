@@ -8,529 +8,531 @@
 <style>
 *{box-sizing:border-box}
 
+:root{
+ --green:#00ff73;
+ --red:#ff3038;
+}
+
 body{
  margin:0;
  min-height:100vh;
+ padding:20px 12px;
  display:flex;
- justify-content:center;
  align-items:center;
- background:#030606;
+ justify-content:center;
+ background:#010402;
  color:white;
  font-family:Arial,sans-serif;
- overflow:hidden;
- transition:background .5s;
+ overflow-x:hidden;
 }
 
-body.red{background:#180000}
-body.green{background:#00180a}
+body:before{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ background:
+ repeating-linear-gradient(
+  0deg,
+  transparent 0 3px,
+  rgba(0,255,90,.08) 4px,
+  transparent 5px 8px
+ ),
+ radial-gradient(
+  ellipse at center,
+  rgba(0,255,80,.12),
+  transparent 65%
+ );
+}
 
-.container{
- width:92%;
- max-width:460px;
- padding:24px 18px;
+.frame{
+ width:min(100%,900px);
+ position:relative;
+ padding:26px 22px 20px;
+ border:3px solid var(--green);
+ border-radius:18px;
+ box-shadow:
+  0 0 12px var(--green),
+  inset 0 0 22px rgba(0,255,100,.18);
+ background:rgba(0,8,3,.96);
  text-align:center;
- border:1px solid #25D366;
- background:rgba(0,0,0,.92);
- box-shadow:0 0 25px #00ff6655;
- border-radius:12px;
 }
 
+.frame:before,
+.frame:after{
+ content:"";
+ position:absolute;
+ left:0;
+ right:0;
+ height:12px;
+ background:repeating-linear-gradient(
+  120deg,
+  var(--green) 0 22px,
+  transparent 22px 40px,
+  var(--red) 40px 62px,
+  transparent 62px 80px
+ );
+}
+
+.frame:before{top:-3px}
+.frame:after{bottom:-3px}
+
+/* WHATSAPP LOGO */
 .logo{
- width:68px;
- height:68px;
- margin:auto;
- filter:drop-shadow(0 0 12px #25D366);
+ width:85px;
+ height:85px;
+ margin:0 auto 8px;
+ filter:drop-shadow(0 0 12px #00ff73);
 }
 
-.logo svg{width:100%;height:100%}
+.logo svg{
+ width:100%;
+ height:100%;
+}
 
 .brand{
- color:#25D366;
- font-size:21px;
- font-weight:bold;
- margin-top:5px;
+ font-size:25px;
+ font-weight:800;
+ color:var(--green);
+ text-shadow:0 0 12px var(--green);
 }
 
 h1{
- color:#25D366;
- letter-spacing:4px;
- font-size:26px;
- text-shadow:0 0 12px #25D366;
+ margin:6px 0 2px;
+ font-size:clamp(38px,8vw,62px);
+ letter-spacing:7px;
+ color:var(--green);
+ text-shadow:0 0 12px var(--green);
 }
 
 .status{
- color:#ff3030;
- font-size:13px;
- letter-spacing:3px;
- font-weight:bold;
- margin:18px 0;
- animation:blink 1s infinite;
+ color:var(--red);
+ font-size:clamp(17px,4vw,25px);
+ font-weight:900;
+ letter-spacing:7px;
+ margin:6px 0;
 }
 
-@keyframes blink{
- 50%{opacity:.35}
+.desc{
+ font-size:clamp(14px,3vw,21px);
+ color:var(--green);
+ margin:8px 0;
 }
 
-#message{
- min-height:45px;
- font-size:14px;
- color:#00ff77;
- margin:18px 0;
- line-height:1.6;
+.counter{
+ font-size:clamp(50px,10vw,72px);
+ font-weight:900;
+ color:var(--red);
+ text-shadow:0 0 18px var(--red);
+ margin:4px 0;
 }
 
-#timer{
- color:#ff3333;
- font-size:36px;
- font-weight:bold;
- margin:15px;
- text-shadow:0 0 12px red;
-}
-
-.progress-box{
- width:100%;
- height:15px;
- border:1px solid #25D366;
- padding:2px;
- margin:20px 0 10px;
+.progress-wrap{
+ height:24px;
+ border:3px solid var(--green);
+ border-radius:9px;
+ padding:3px;
+ box-shadow:0 0 10px rgba(0,255,100,.4);
 }
 
 .progress{
  height:100%;
  width:0%;
- background:linear-gradient(90deg,red,#25D366);
- box-shadow:0 0 12px #25D366;
+ border-radius:4px;
+ background:linear-gradient(
+  90deg,
+  red,
+  #ffb000,
+  var(--green)
+ );
+ transition:width .25s linear;
 }
 
-#percent{font-size:14px}
+.percent{
+ font-size:22px;
+ margin:8px 0 12px;
+}
 
-.terminal{
- height:100px;
- overflow:hidden;
- text-align:left;
- border:1px solid #17452a;
- background:#020704;
- padding:10px;
- color:#00ff66;
- font-family:monospace;
- font-size:11px;
- line-height:1.6;
- margin-top:20px;
+label{
+ display:block;
+ color:var(--red);
+ font-size:clamp(19px,4vw,28px);
+ font-weight:900;
+ margin:14px 0 10px;
+ text-shadow:0 0 10px var(--red);
+}
+
+input{
+ width:100%;
+ max-width:720px;
+ padding:17px 14px;
+ border:3px solid var(--green);
+ border-radius:12px;
+ background:#001006;
+ color:white;
+ font-size:25px;
+ text-align:center;
+ outline:none;
 }
 
 button{
- border:1px solid #25D366;
- background:#06140b;
- color:#25D366;
- padding:14px 20px;
- font-weight:bold;
- font-size:14px;
- letter-spacing:2px;
- border-radius:6px;
+ display:block;
+ margin:18px auto 14px;
+ padding:12px 45px;
+ border:3px solid var(--green);
+ border-radius:12px;
+ background:#001b0b;
+ color:var(--green);
+ font-size:24px;
+ font-weight:900;
+ letter-spacing:3px;
  cursor:pointer;
- margin-top:15px;
+ box-shadow:0 0 13px rgba(0,255,100,.4);
 }
 
-button:active{transform:scale(.96)}
-
-#startBtn{display:inline-block}
-
-#phonePanel{display:none;margin-top:20px}
-
-#phonePanel h3{
- color:#ff3030;
- font-size:17px;
- letter-spacing:2px;
+button:disabled,
+input:disabled{
+ opacity:.55;
 }
 
-#phoneInput{
- width:100%;
- padding:14px;
- background:#050b07;
- color:#25D366;
- border:1px solid #25D366;
- outline:none;
- font-size:17px;
- text-align:center;
- border-radius:5px;
-}
-
-#phoneMessage{
- color:#ff3333;
- font-size:12px;
- min-height:18px;
- margin-top:8px;
-}
-
-.error-screen{
- display:none;
- position:fixed;
- inset:0;
- z-index:10;
- background:rgba(0,0,0,.97);
- color:#ff2929;
- text-align:center;
- padding:20px;
- justify-content:center;
- align-items:center;
- flex-direction:column;
+.terminal{
+ margin-top:14px;
+ padding:10px 14px;
+ border:2px solid #00b94d;
+ border-radius:4px;
+ color:#00ff73;
+ text-align:left;
  font-family:monospace;
+ font-size:clamp(12px,2.5vw,17px);
+ line-height:1.5;
+ min-height:110px;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+ text-shadow:0 0 7px #00ff73;
 }
 
-.error-screen.show{
- display:flex;
- animation:errorGlitch .25s;
+.hidden{display:none!important}
+
+.error-mode{
+ animation:flash .22s steps(2,end) infinite;
 }
 
-.error-screen h2{
- font-size:30px;
- text-shadow:3px 0 red,-3px 0 #00ff66;
- animation:blink .5s infinite;
+.error-mode .frame{
+ border-color:var(--red);
+ box-shadow:
+  0 0 18px var(--red),
+  inset 0 0 28px rgba(255,0,0,.24);
 }
 
-.error-bar{
- width:90%;
- max-width:350px;
- border:1px solid red;
- padding:10px;
- margin:7px;
+.error-mode h1,
+.error-mode .logo,
+.error-mode .brand{
+ color:var(--red);
+ text-shadow:0 0 16px var(--red);
+}
+
+.error-mode .status,
+.error-mode .desc{
  color:white;
- background:#300000;
-}
-
-.error-screen p{
- font-size:13px;
- line-height:2;
-}
-
-@keyframes errorGlitch{
- 0%{transform:translateX(-5px)}
- 50%{transform:translateX(5px)}
- 100%{transform:translateX(0)}
 }
 
 .shake{
- animation:shake .35s;
+ animation:shake .12s linear 8;
+}
+
+.glitch{
+ animation:glitch .18s steps(2,end) 8;
+}
+
+@keyframes flash{
+ 50%{filter:hue-rotate(95deg) brightness(1.5)}
 }
 
 @keyframes shake{
  0%,100%{transform:translate(0,0)}
- 20%{transform:translate(-5px,2px)}
- 40%{transform:translate(5px,-2px)}
- 60%{transform:translate(-4px,1px)}
- 80%{transform:translate(4px,-1px)}
+ 25%{transform:translate(-7px,2px)}
+ 50%{transform:translate(6px,-2px)}
+ 75%{transform:translate(-4px,-1px)}
 }
 
-#final{
- display:none;
- color:#25D366;
- font-size:30px;
- font-weight:bold;
- line-height:1.5;
- text-shadow:0 0 18px #25D366;
- margin-top:25px;
+@keyframes glitch{
+ 0%{transform:translate(0)}
+ 25%{transform:translate(3px,-2px)}
+ 50%{transform:translate(-3px,2px)}
+ 75%{transform:translate(2px,1px)}
 }
 
-.small{
- color:#557a63;
- font-size:10px;
- margin-top:18px;
+@media(max-width:520px){
+ .frame{padding:22px 13px 16px}
+ .status{letter-spacing:4px}
+ .terminal{font-size:11px}
+ input{font-size:19px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="main">
+<main class="frame" id="panel">
 
+ <!-- LOGO WHATSAPP -->
  <div class="logo">
-  <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-   <path fill="#25D366"
-    d="M24 3C12.4 3 3 12.2 3 23.6c0 4.1 1.2 8 3.5 11.3L3 45l10.5-3.4c3.2 1.7 6.8 2.6 10.5 2.6 11.6 0 21-9.2 21-20.6S35.6 3 24 3z"/>
-   <path fill="#fff"
-    d="M33.5 28.7c-.5-.3-3-1.5-3.5-1.7-.5-.2-.8-.3-1.1.3-.3.5-1.3 1.7-1.6 2-.3.3-.6.4-1.1.1-.5-.3-2.2-.8-4.2-2.6-1.5-1.3-2.6-3-2.9-3.5-.3-.5 0-.8.2-1 .2-.2.5-.6.8-.9.3-.3.4-.5.5-.8.2-.3.1-.6 0-.9-.1-.3-1.1-2.7-1.5-3.7-.4-1-.8-.9-1.1-.9h-.9c-.3 0-.9.1-1.4.6-.5.5-1.8 1.7-1.8 4.1s1.8 4.7 2.1 5c.3.3 3.5 5.3 8.5 7.4 1.2.5 2.1.8 2.8 1 1.2.4 2.3.3 3.2.2 1-.1 3-1.2 3.4-2.4.4-1.2.4-2.2.3-2.4-.1-.2-.5-.3-1-.6z"/>
+  <svg viewBox="0 0 100 100"
+       xmlns="http://www.w3.org/2000/svg">
+   <path
+    fill="#25D366"
+    d="M50 5C25.1 5 5 25.1 5 50c0 8.2 2.2 16.2 6.4 23.2L5 95l22.4-6.1C34.1 93 42 95 50 95c24.9 0 45-20.1 45-45S74.9 5 50 5z"/>
+   <path
+    fill="#fff"
+    d="M73.4 62.7c-1.2 3.5-6 6.4-9.9 7.2-2.6.5-6 .9-17.4-3.8-14.6-6-24-20.8-24.7-21.7-.7-.9-5.9-7.9-5.9-15 0-7.1 3.7-10.6 5.2-12.1 1.3-1.4 3.4-2 5.4-2h1.8c1.6 0 2.4.1 3.5 2.7 1.3 3.1 4.5 11 4.9 11.8.4.8.7 1.7.1 2.7-.5 1-1 1.6-1.8 2.5-.8.9-1.7 2-2.4 2.7-.8.8-1.6 1.7-.7 3.3.9 1.6 4.1 6.7 8.8 10.8 6 5.3 11.1 7 12.7 7.8 1.6.8 2.5.7 3.4-.4.9-1.1 3.9-4.5 4.9-6.1 1-1.6 2-1.3 3.4-.8 1.4.5 9.1 4.3 10.7 5.1 1.6.8 2.7 1.2 3.1 1.9.4.7.4 4-.8 7.4z"
+    transform="translate(15 14) scale(.75)"/>
   </svg>
  </div>
 
- <div class="brand">WhatsApp</div>
+ <div class="brand">CHAT INTERFACE</div>
+
  <h1>CHAT STATUS</h1>
 
- <div class="status" id="status">● SYSTEM INITIALIZING</div>
+ <div class="status" id="status">
+ • INPUT REQUIRED •
+ </div>
 
- <div id="message">Menunggu arahan sistem...</div>
+ <p class="desc" id="desc">
+ Pemeriksaan visual sedang menunggu input untuk meneruskan paparan.
+ </p>
 
- <div id="timer">30</div>
+ <div class="counter" id="counter">30</div>
 
- <div class="progress-box">
+ <div class="progress-wrap">
   <div class="progress" id="progress"></div>
  </div>
 
- <div id="percent">0%</div>
+ <div class="percent" id="percent">0%</div>
 
- <div id="phonePanel">
-  <h3>MASUKKAN NOMBOR TELEFON</h3>
+ <section id="inputArea" class="hidden">
+
+  <label for="phoneInput">
+   MASUKKAN NOMOR TELEFON
+  </label>
+
   <input
    id="phoneInput"
    type="tel"
    inputmode="numeric"
-   maxlength="20"
-   placeholder="Contoh: 0123456789"
-   autocomplete="off">
-  <div id="phoneMessage"></div>
-  <button onclick="continueLoading()">TERUSKAN</button>
- </div>
+   autocomplete="off"
+  >
+
+  <button id="continueBtn">
+   TERUSKAN
+  </button>
+
+ </section>
 
  <div class="terminal" id="terminal">
-  &gt; SYSTEM READY<br>
-  &gt; INITIALIZING INTERFACE...<br>
-  &gt; WAITING FOR START COMMAND...
+&gt; WAITING FOR START COMMAND...
+&gt; CHECKING INTERFACE...
+&gt; SCANNING VISUAL ELEMENTS...
+&gt; SIGNAL STATUS: STANDBY
+&gt; WAITING FOR INPUT
  </div>
 
- <button id="startBtn" onclick="startSystem()">
-  MULAKAN PROSES
- </button>
-
- <div id="final">APA KAU TUNGGU?!</div>
-
- <div class="small">
-  Paparan visual sahaja. Tiada nombor dihantar atau disimpan.
+ <div
+  id="final"
+  class="hidden"
+  style="
+   font-size:clamp(30px,7vw,54px);
+   font-weight:900;
+   color:#ff3038;
+   text-shadow:0 0 16px red;
+   margin-top:18px;
+  "
+ >
+  APA KAU TUNGGU?!
  </div>
 
-</div>
-
-<div class="error-screen" id="errorScreen">
- <h2>⚠ SYSTEM ERROR ⚠</h2>
- <div class="error-bar">CONNECTION STATUS: UNSTABLE</div>
- <div class="error-bar">RESPONSE: NOT FOUND</div>
- <div class="error-bar">SYSTEM WARNING: 0x0007</div>
- <p>
-  RELOADING INTERFACE...<br>
-  PLEASE WAIT...<br>
-  CHECKING VISUAL STATUS...
- </p>
-</div>
+</main>
 
 <script>
-let audioContext;
-let soundTimer;
+const $=id=>document.getElementById(id);
+
+const counter=$('counter');
+const progress=$('progress');
+const percent=$('percent');
+const input=$('phoneInput');
+const button=$('continueBtn');
+const terminal=$('terminal');
+
 let elapsed=0;
-let running=false;
-let finished=false;
-let paused=false;
-let interval;
-let soundStep=0;
+let errorShown=false;
+let started=false;
 
-const messages=[
- "Menghubungkan interface...",
- "Memeriksa status sambungan...",
- "Menganalisis paparan...",
- "Menyegerakkan sistem...",
- "Amaran: gangguan dikesan!",
- "Mencuba pemulihan...",
- "Ralat sambungan sementara!",
- "Memulakan pemeriksaan semula..."
-];
-
-const terminalMessages=[
- "CONNECTING...",
- "CHECKING RESPONSE...",
- "SCANNING INTERFACE...",
- "WARNING: SIGNAL UNSTABLE",
- "RETRYING CONNECTION...",
- "RELOADING DISPLAY...",
- "SYSTEM RESPONSE: WAIT...",
- "PROCESS CONTINUES..."
-];
-
-function beep(freq,duration,type="sawtooth",volume=.025){
- if(!audioContext)return;
-
- const osc=audioContext.createOscillator();
- const gain=audioContext.createGain();
-
- osc.type=type;
- osc.frequency.value=freq;
- gain.gain.value=volume;
-
- osc.connect(gain);
- gain.connect(audioContext.destination);
-
- osc.start();
- gain.gain.exponentialRampToValueAtTime(
-  .001,audioContext.currentTime+duration
- );
- osc.stop(audioContext.currentTime+duration);
-}
-
-function siren(){
- if(!audioContext)return;
-
- const sequence=[620,920,480,1050,550,850];
- const freq=sequence[soundStep%sequence.length];
- soundStep++;
-
- beep(freq,.24,"sawtooth",.025);
- setTimeout(()=>beep(freq*.65,.18,"square",.018),180);
-}
-
-function startSound(){
- audioContext=new (window.AudioContext||window.webkitAudioContext)();
-
- if(audioContext.state==="suspended"){
-  audioContext.resume();
- }
-
- siren();
- soundTimer=setInterval(siren,650);
-}
-
-function stopSound(){
- clearInterval(soundTimer);
-}
-
-function addTerminal(text){
- const terminal=document.getElementById("terminal");
- terminal.innerHTML+="&gt; "+text+"<br>";
+function log(line){
+ terminal.textContent+="\n> "+line;
  terminal.scrollTop=terminal.scrollHeight;
 }
 
-function showError(){
- const screen=document.getElementById("errorScreen");
- const main=document.getElementById("main");
+let audioCtx;
 
- screen.classList.add("show");
- main.classList.remove("shake");
- void main.offsetWidth;
- main.classList.add("shake");
+function beep(freq=620,duration=.12,type='square',volume=.035){
+ try{
+  audioCtx=audioCtx||new(
+   window.AudioContext||
+   window.webkitAudioContext
+  )();
+
+  if(audioCtx.state==='suspended'){
+   audioCtx.resume();
+  }
+
+  const osc=audioCtx.createOscillator();
+  const gain=audioCtx.createGain();
+
+  osc.type=type;
+  osc.frequency.value=freq;
+  gain.gain.value=volume;
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+
+  gain.gain.exponentialRampToValueAtTime(
+   .001,
+   audioCtx.currentTime+duration
+  );
+
+  osc.stop(audioCtx.currentTime+duration);
+
+ }catch(e){}
+}
+
+function alarm(){
+ let n=0;
+
+ const a=setInterval(()=>{
+  beep(n%2?880:420,.16,'sawtooth',.045);
+  n++;
+
+  if(n>=10){
+   clearInterval(a);
+  }
+ },210);
+}
+
+function showError(message){
+
+ if(errorShown)return;
+
+ errorShown=true;
+
+ document.body.classList.add(
+  'error-mode',
+  'shake'
+ );
+
+ $('status').textContent='• SYSTEM ERROR •';
+ $('desc').textContent=message;
+
+ $('panel').classList.add('glitch');
+
+ log('WARNING: VISUAL ERROR DETECTED');
+ log('RETRY STATUS: ATTENTION REQUIRED');
+
+ alarm();
 
  if(navigator.vibrate){
-  navigator.vibrate([180,80,180,80,250]);
+  navigator.vibrate([120,60,120,60,220]);
  }
 
- siren();
-
  setTimeout(()=>{
-  screen.classList.remove("show");
- },1800);
+  document.body.classList.remove('shake');
+ },1200);
 }
 
-function updateProgress(){
- document.getElementById("timer").textContent=30-elapsed;
- document.getElementById("progress").style.width=
-  (elapsed/30*100)+"%";
- document.getElementById("percent").textContent=
-  Math.round(elapsed/30*100)+"%";
-}
+button.addEventListener('click',()=>{
 
-function startSystem(){
- if(running)return;
+ const digits=input.value.replace(/\D/g,'');
 
- running=true;
- startSound();
+ if(digits.length<7||digits.length>15){
 
- document.getElementById("startBtn").style.display="none";
- document.getElementById("message").textContent=messages[0];
+  showError(
+   'Format input tidak sah. Sila semak semula nombor yang dimasukkan.'
+  );
 
- addTerminal("PROCESS STARTED");
+  log('INPUT FORMAT: INVALID');
+  return;
+ }
 
- interval=setInterval(()=>{
-  if(paused||finished)return;
+ input.disabled=true;
+ button.disabled=true;
+
+ log('INPUT FORMAT: ACCEPTED LOCALLY');
+ log('CONTINUING VISUAL SEQUENCE...');
+
+ beep(740,.2,'triangle');
+
+});
+
+function start(){
+
+ if(started)return;
+
+ started=true;
+
+ log('PROCESS STARTED');
+
+ const timer=setInterval(()=>{
 
   elapsed++;
-  updateProgress();
 
-  document.body.classList.toggle("red");
-  document.body.classList.toggle("green");
+  const remaining=Math.max(0,30-elapsed);
 
-  if(elapsed%3===0){
-   let index=(elapsed/3)%messages.length;
-   document.getElementById("message").textContent=
-    messages[Math.floor(index)];
+  counter.textContent=remaining;
 
-   addTerminal(
-    terminalMessages[Math.floor(index)%terminalMessages.length]
-   );
-  }
+  const p=Math.min(
+   100,
+   Math.round(elapsed/30*100)
+  );
+
+  progress.style.width=p+'%';
+  percent.textContent=p+'%';
 
   if(elapsed===10){
-   paused=true;
-   showPhonePanel();
+
+   $('inputArea').classList.remove('hidden');
+
+   log('INPUT PANEL READY');
   }
 
-  if(elapsed===14||elapsed===20||elapsed===25){
-   showError();
+  if(elapsed%4===0){
+   beep(500+Math.random()*300,.07,'square',.018);
+  }
+
+  if(elapsed===18&&!errorShown){
+   log('WARNING: SIGNAL UNSTABLE');
   }
 
   if(elapsed>=30){
-   clearInterval(interval);
-   finishSystem();
+
+   clearInterval(timer);
+
+   if(!errorShown){
+    showError(
+     'Sambungan visual terganggu. Urutan paparan telah tamat.'
+    );
+   }
+
+   $('final').classList.remove('hidden');
+
+   log('VISUAL SEQUENCE COMPLETE');
+
+   beep(980,.35,'sawtooth',.05);
   }
 
  },1000);
 }
 
-function showPhonePanel(){
- document.getElementById("phonePanel").style.display="block";
- document.getElementById("message").textContent=
-  "Pemeriksaan memerlukan input untuk meneruskan paparan.";
-
- document.getElementById("status").textContent=
-  "● INPUT REQUIRED";
-
- addTerminal("WAITING FOR PHONE FORMAT INPUT");
-}
-
-function continueLoading(){
- const input=document.getElementById("phoneInput");
- const digits=input.value.replace(/\D/g,"");
- const message=document.getElementById("phoneMessage");
-
- if(digits.length<7||digits.length>15){
-  message.textContent="Format nombor tidak sah. Sila semak digit.";
-  showError();
-  return;
- }
-
- message.textContent="Format diterima.";
- document.getElementById("phonePanel").style.display="none";
-
- document.getElementById("message").textContent=
-  "Input diterima. Menyambung proses...";
-
- document.getElementById("status").textContent=
-  "● PROCESS RESUMED";
-
- addTerminal("INPUT FORMAT ACCEPTED");
- addTerminal("RESUMING PROCESS...");
-
- paused=false;
-}
-
-function finishSystem(){
- finished=true;
- stopSound();
-
- document.body.classList.remove("red","green");
-
- document.getElementById("status").textContent=
-  "● PROCESS COMPLETED";
-
- document.getElementById("status").style.color="#25D366";
-
- document.getElementById("message").textContent=
-  "Semua proses telah selesai.";
-
- document.getElementById("timer").textContent="00";
- document.getElementById("percent").textContent="100%";
- document.getElementById("progress").style.width="100%";
-
- addTerminal("PROCESS COMPLETED");
-
- document.getElementById("final").style.display="block";
-
- beep(600,.3,"sine");
- setTimeout(()=>beep(900,.4,"sine"),350);
-}
+start();
 </script>
 
 </body>
