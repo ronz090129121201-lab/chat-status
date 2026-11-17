@@ -2,234 +2,227 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CHAT STATUS</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Security Dashboard</title>
 <style>
 *{box-sizing:border-box}
-
-:root{
-  --g:#00ff55;
-  --r:#ff1025;
-  --bg:#000400;
-}
-
 body{
-  margin:0;
-  min-height:100vh;
-  background:#010301;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:8px;
-  color:white;
-  font-family:Arial,sans-serif;
-  overflow-x:hidden;
+ margin:0;padding:18px;background:#02070d;
+ color:#eafff7;font-family:Arial,sans-serif
+}
+.container{
+ max-width:440px;margin:20px auto;padding:20px;
+ background:#081722;border:1px solid #00c982;
+ border-radius:18px;
+ box-shadow:0 0 25px #00ff8840;
+}
+h1{text-align:center;color:#00ff9d;letter-spacing:3px}
+h2{font-size:16px;color:#00ff9d}
+.small{text-align:center;color:#7fa99b;font-size:12px}
+.card{
+ background:#102a32;padding:15px;margin:12px 0;
+ border-radius:10px;border:1px solid #174a43
+}
+.dashboard{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.number{font-size:25px;color:#00ff9d;font-weight:bold;margin:8px 0}
+.bar{height:7px;background:#18352e;border-radius:10px;overflow:hidden}
+.fill{height:100%;width:0;background:#00ff9d;transition:width .4s}
+.tabs{display:flex;gap:8px;margin:18px 0}
+button{
+ border:0;border-radius:8px;padding:13px;
+ font-weight:bold;cursor:pointer
+}
+.tabs button{flex:1;background:#18352e;color:white}
+.tabs button.active{background:#00e890;color:#001b12}
+.item{
+ display:flex;align-items:center;gap:10px;
+ padding:13px;margin:9px 0;background:#102a32;
+ border-radius:9px
+}
+input{width:20px;height:20px;accent-color:#00ff9d}
+.start{
+ width:100%;margin-top:12px;
+ background:#00e890;color:#001b12
+}
+#status{
+ margin-top:15px;padding:14px;text-align:center;
+ background:#06120f;border:1px solid #176b54;
+ border-radius:9px;line-height:1.7
+}
+#scan{
+ display:none;text-align:center;color:#00ff9d;
+ margin:18px 0;animation:blink .5s infinite alternate
+}
+.scanline{
+ height:4px;background:#00ff9d;
+ box-shadow:0 0 15px #00ff9d;
+ margin-top:12px;display:none;
+ animation:move 1s infinite alternate
+}
+@keyframes blink{
+ from{opacity:.3}
+ to{opacity:1;text-shadow:0 0 12px #00ff9d}
+}
+@keyframes move{
+ from{transform:scaleX(.2)}
+ to{transform:scaleX(1)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>SECURITY DASHBOARD</h1>
+<p class="small">LOCAL SECURITY REVIEW</p>
+
+<h2>DASHBOARD UTAMA</h2>
+
+<div class="dashboard">
+ <div class="card">
+  PROFIL 1
+  <div class="number" id="count1">0/5</div>
+  <div class="bar"><div class="fill" id="bar1"></div></div>
+ </div>
+ <div class="card">
+  PROFIL 2
+  <div class="number" id="count2">0/5</div>
+  <div class="bar"><div class="fill" id="bar2"></div></div>
+ </div>
+</div>
+
+<div class="card">
+ JUMLAH KESELURUHAN
+ <div class="number" id="total">0/10</div>
+ <div id="overall">BELUM LENGKAP</div>
+</div>
+
+<div class="tabs">
+ <button id="tab1" class="active" onclick="pilih(1)">PROFIL 1</button>
+ <button id="tab2" onclick="pilih(2)">PROFIL 2</button>
+</div>
+
+<h2 id="title">SEMAKAN PROFIL 1</h2>
+<div id="checks"></div>
+
+<button class="start" onclick="semak()">MULA IMBASAN</button>
+
+<div id="scan">
+ SEDANG MENJALANKAN IMBASAN...
+ <div class="scanline" id="scanline"></div>
+</div>
+
+<div class="bar" style="margin-top:15px">
+ <div class="fill" id="progress"></div>
+</div>
+
+<div id="status">MENUNGGU SEMAKAN</div>
+
+<p class="small">
+Simulasi visual dan panduan keselamatan sahaja.
+Tidak mengakses WhatsApp atau membaca mesej.
+</p>
+</div>
+
+<script>
+const perkara=[
+ "Pengesahan dua langkah diaktifkan.",
+ "Peranti dipautkan diperiksa.",
+ "Telefon mempunyai kunci skrin.",
+ "E-mel pemulihan dilindungi.",
+ "Kod OTP tidak dikongsi."
+];
+
+let aktif=1;
+let sedang=false;
+let data={1:Array(5).fill(false),2:Array(5).fill(false)};
+
+try{
+ const saved=JSON.parse(localStorage.getItem("securityData"));
+ if(saved && saved[1] && saved[2])data=saved;
+}catch(e){}
+
+function simpan(){
+ localStorage.setItem("securityData",JSON.stringify(data));
 }
 
-.phone{
-  width:min(430px,100%);
-  height:min(765px,calc(100svh - 16px));
-  min-height:620px;
-  position:relative;
-  overflow:hidden;
-  isolation:isolate;
-  background:
-    radial-gradient(ellipse at 50% 35%,#001b09 0%,#000700 55%,#000200 100%);
-  clip-path:polygon(
-    0 3%,5% 0,95% 0,100% 3%,
-    100% 97%,95% 100%,5% 100%,0 97%
-  );
-  border:3px solid var(--g);
-  box-shadow:0 0 15px var(--g),inset 0 0 30px #00ff5520;
+function jumlah(n){
+ return data[n].filter(Boolean).length;
 }
 
-/* LAPIS TEKSTUR DIGITAL */
-
-.noise{
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  opacity:.28;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 3px,
-      #00ff5510 4px,
-      transparent 5px 8px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 25px,
-      #00ff5508 26px,
-      transparent 27px 50px
-    );
+function dashboard(){
+ [1,2].forEach(n=>{
+  document.getElementById("count"+n).textContent=jumlah(n)+"/5";
+  document.getElementById("bar"+n).style.width=(jumlah(n)*20)+"%";
+ });
+ let total=jumlah(1)+jumlah(2);
+ document.getElementById("total").textContent=total+"/10";
+ document.getElementById("overall").textContent=
+ total===10?"SEMUA SEMAKAN LENGKAP":"SEMAKAN BELUM LENGKAP";
 }
 
-.noise:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(90deg,#00ff5510,transparent 20%,transparent 80%,#00ff5510);
+function papar(){
+ document.getElementById("title").textContent="SEMAKAN PROFIL "+aktif;
+ document.getElementById("tab1").className=aktif===1?"active":"";
+ document.getElementById("tab2").className=aktif===2?"active":"";
+
+ document.getElementById("checks").innerHTML=perkara.map((p,i)=>
+ `<div class="item">
+ <input type="checkbox" ${data[aktif][i]?"checked":""}
+ onchange="ubah(${i},this.checked)">
+ <span>${p}</span>
+ </div>`).join("");
+
+ document.getElementById("status").textContent="MENUNGGU SEMAKAN";
+ document.getElementById("progress").style.width="0%";
 }
 
-/* JALUR SERONG ATAS DAN BAWAH */
-
-.stripes{
-  position:absolute;
-  left:0;
-  width:100%;
-  height:25px;
-  display:flex;
-  justify-content:space-around;
-  overflow:hidden;
-  z-index:5;
-  background:#000;
+function ubah(i,value){
+ data[aktif][i]=value;
+ simpan();
+ dashboard();
 }
 
-.stripes.top{top:0}
-.stripes.bottom{bottom:0}
-
-.stripes span{
-  display:block;
-  width:20px;
-  height:35px;
-  transform:skew(-35deg);
-  background:var(--g);
-  box-shadow:0 0 10px var(--g);
+function pilih(n){
+ if(sedang)return;
+ aktif=n;
+ papar();
 }
 
-.stripes span:nth-child(3n){
-  background:var(--r);
-  box-shadow:0 0 10px var(--r);
+function semak(){
+ if(sedang)return;
+ sedang=true;
+
+ let j=jumlah(aktif);
+ let p=0;
+
+ const scan=document.getElementById("scan");
+ const line=document.getElementById("scanline");
+ const progress=document.getElementById("progress");
+ const status=document.getElementById("status");
+
+ scan.style.display="block";
+ line.style.display="block";
+ status.textContent="IMBASAN SEDANG BERJALAN...";
+
+ const timer=setInterval(()=>{
+  p+=5;
+  progress.style.width=p+"%";
+
+  if(p>=100){
+   clearInterval(timer);
+   sedang=false;
+   scan.style.display="none";
+   line.style.display="none";
+
+   status.innerHTML=j===5
+   ?"✓ PROFIL "+aktif+" SELESAI<br>5/5 DIPERIKSA"
+   :"PROFIL "+aktif+" BELUM LENGKAP<br>"+j+"/5 DIPERIKSA";
+  }
+ },100);
 }
 
-.stripes span:nth-child(2n){
-  opacity:.75;
-}
-
-/* BINGKAI NEON */
-
-.frame{
-  position:absolute;
-  inset:17px 12px;
-  border:2px solid var(--g);
-  box-shadow:
-    0 0 8px var(--g),
-    inset 0 0 12px #00ff5525;
-  clip-path:polygon(
-    0 3%,3% 0,97% 0,100% 3%,
-    100% 97%,97% 100%,3% 100%,0 97%
-  );
-  pointer-events:none;
-  z-index:4;
-}
-
-/* GLITCH DIGITAL DI TEPI */
-
-.edge{
-  position:absolute;
-  width:100%;
-  height:7px;
-  left:0;
-  background:linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--g) 8%,
-    transparent 35%,
-    var(--r) 48%,
-    transparent 72%,
-    var(--g) 90%,
-    transparent
-  );
-  filter:drop-shadow(0 0 5px var(--g));
-  opacity:.75;
-  animation:edgeMove 2s infinite alternate;
-  z-index:2;
-}
-
-.e1{top:14%}
-.e2{top:28%;animation-delay:.4s}
-.e3{top:43%;animation-delay:.8s}
-.e4{top:59%;animation-delay:.3s}
-.e5{top:76%;animation-delay:1s}
-.e6{top:88%;animation-delay:.6s}
-
-@keyframes edgeMove{
-  0%{transform:translateX(-5px);opacity:.3}
-  100%{transform:translateX(5px);opacity:.9}
-}
-
-.side-glitch{
-  position:absolute;
-  top:5%;
-  bottom:5%;
-  width:7px;
-  opacity:.6;
-  background:repeating-linear-gradient(
-    to bottom,
-    var(--g) 0 2px,
-    transparent 2px 9px,
-    var(--r) 9px 11px,
-    transparent 11px 19px
-  );
-  filter:drop-shadow(0 0 5px var(--g));
-  z-index:2;
-}
-
-.side-glitch.left{left:0}
-.side-glitch.right{right:0}
-
-/* KANDUNGAN */
-
-.content{
-  position:relative;
-  z-index:3;
-  height:100%;
-  padding:36px 17px 32px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-/* LOGO DAN TAJUK */
-
-.header{text-align:center}
-
-.logo{
-  width:76px;
-  height:76px;
-  margin:auto;
-  filter:drop-shadow(0 0 10px var(--g));
-}
-
-.logo svg{width:100%;height:100%}
-
-.brand{
-  color:var(--g);
-  font-size:23px;
-  font-weight:bold;
-  margin-top:0;
-  text-shadow:0 0 12px var(--g);
-}
-
-h1{
-  margin:9px 0 8px;
-  font-size:clamp(29px,8vw,40px);
-  letter-spacing:3px;
-  color:var(--g);
-  text-shadow:0 0 10px var(--g),0 0 22px #00ff55;
-}
-
-.status{
-  color:var(--r);
-  font-size:18px;
-  font-weight:bold;
-  letter-spacing:4px;
-  text-shadow:0 0 12px var(--r);
-}
-
-.description{
-  color:var(--g);
-  font-size:13px
+papar();
+dashboard();
+</script>
+</body>
+</html>
